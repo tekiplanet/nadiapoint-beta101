@@ -22,9 +22,22 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
-const getSystemTheme = (): Theme => {
-  if (typeof window === 'undefined') return 'dark'
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+// Avoid hydration mismatch by checking for window in a separate function
+const getInitialTheme = (defaultTheme: Theme): Theme => {
+  if (typeof window !== 'undefined') {
+    try {
+      const storedTheme = window.localStorage.getItem('nadiapoint-theme') as Theme
+      if (storedTheme) {
+        return storedTheme
+      }
+      
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+      return prefersDark ? 'dark' : 'light'
+    } catch (e) {
+      console.warn('Failed to get initial theme:', e)
+    }
+  }
+  return defaultTheme
 }
 
 export function ThemeProvider({
@@ -33,30 +46,29 @@ export function ThemeProvider({
   storageKey = "nadiapoint-theme",
   ...props
 }: ThemeProviderProps) {
-  // Initialize with defaultTheme for SSR
-  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [theme, setTheme] = useState<Theme>(() => defaultTheme)
   const [mounted, setMounted] = useState(false)
 
+  // Update theme when component mounts
   useEffect(() => {
+    const initialTheme = getInitialTheme(defaultTheme)
+    setTheme(initialTheme)
     setMounted(true)
-    try {
-      const savedTheme = localStorage.getItem(storageKey) as Theme
-      const systemTheme = getSystemTheme()
-      setTheme(savedTheme || systemTheme)
-    } catch (e) {
-      console.warn('Failed to get theme from localStorage:', e)
-    }
-  }, [storageKey])
+  }, [defaultTheme])
 
+  // Update document class when theme changes
   useEffect(() => {
-    if (!mounted) return
+    if (mounted) {
+      const root = document.documentElement
+      const classList = root.classList
 
-    try {
-      const root = window.document.documentElement
-      root.classList.remove("light", "dark")
-      root.classList.add(theme)
-    } catch (e) {
-      console.warn('Failed to update theme:', e)
+      if (theme === 'dark') {
+        classList.remove('light')
+        classList.add('dark')
+      } else {
+        classList.remove('dark')
+        classList.add('light')
+      }
     }
   }, [theme, mounted])
 
@@ -71,15 +83,6 @@ export function ThemeProvider({
         setTheme(newTheme)
       }
     },
-  }
-
-  // For SSR, render a div that will be replaced on client
-  if (!mounted) {
-    return (
-      <div style={{ visibility: 'hidden' }}>
-        {children}
-      </div>
-    )
   }
 
   return (
