@@ -1,5 +1,7 @@
+"use client"
+
 import { useTheme } from "@/providers/theme-provider"
-import { motion } from "framer-motion"
+import { motion } from "@/lib/framer"
 import Link from "next/link"
 import Image from "next/image"
 

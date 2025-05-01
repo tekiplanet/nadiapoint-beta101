@@ -123,11 +123,11 @@
 
 /* Custom Gradients */
 .gradient-dark {
-  @apply bg-gradient-to-b from-dark-background to-dark-secondary;
+  @apply bg-gradient-to-b from-gray-900 to-gray-800;
 }
 
 .gradient-light {
-  @apply bg-gradient-to-b from-light-background to-light-secondary;
+  @apply bg-gradient-to-b from-gray-50 to-gray-100;
 }
 
 /* Custom Animations */
@@ -146,14 +146,14 @@
 
 /* Custom Card Styles */
 .card-dark {
-  @apply bg-dark-secondary bg-opacity-10 border border-dark-accent border-opacity-20 rounded-xl;
+  @apply bg-gray-900/10 border border-gray-800/20 rounded-xl;
 }
 
 .card-light {
-  @apply bg-light-background border border-light-secondary rounded-xl shadow-sm;
+  @apply bg-white border border-gray-200 rounded-xl shadow-sm;
 }
 
 /* Custom Text Styles */
 .text-gradient {
-  @apply bg-clip-text text-transparent bg-gradient-to-r from-highlight-primary to-highlight-secondary;
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-yellow-200;
 }

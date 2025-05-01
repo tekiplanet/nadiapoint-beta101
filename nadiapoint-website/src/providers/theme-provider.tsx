@@ -1,3 +1,5 @@
+"use client"
+
 import { createContext, useContext, useEffect, useState } from "react"
 
 type Theme = "dark" | "light"
@@ -20,29 +22,64 @@ const initialState: ThemeProviderState = {
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
+const getSystemTheme = (): Theme => {
+  if (typeof window === 'undefined') return 'dark'
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
 export function ThemeProvider({
   children,
   defaultTheme = "dark",
   storageKey = "nadiapoint-theme",
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  // Initialize with defaultTheme for SSR
+  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const root = window.document.documentElement
+    setMounted(true)
+    try {
+      const savedTheme = localStorage.getItem(storageKey) as Theme
+      const systemTheme = getSystemTheme()
+      setTheme(savedTheme || systemTheme)
+    } catch (e) {
+      console.warn('Failed to get theme from localStorage:', e)
+    }
+  }, [storageKey])
 
-    root.classList.remove("light", "dark")
-    root.classList.add(theme)
-  }, [theme])
+  useEffect(() => {
+    if (!mounted) return
+
+    try {
+      const root = window.document.documentElement
+      root.classList.remove("light", "dark")
+      root.classList.add(theme)
+    } catch (e) {
+      console.warn('Failed to update theme:', e)
+    }
+  }, [theme, mounted])
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+    setTheme: (newTheme: Theme) => {
+      try {
+        localStorage.setItem(storageKey, newTheme)
+        setTheme(newTheme)
+      } catch (e) {
+        console.warn('Failed to save theme:', e)
+        setTheme(newTheme)
+      }
     },
+  }
+
+  // For SSR, render a div that will be replaced on client
+  if (!mounted) {
+    return (
+      <div style={{ visibility: 'hidden' }}>
+        {children}
+      </div>
+    )
   }
 
   return (
