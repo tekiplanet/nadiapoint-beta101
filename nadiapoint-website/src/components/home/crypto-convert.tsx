@@ -85,28 +85,6 @@ export function CryptoConvert() {
               ))}
             </div>
 
-            {/* CTA Button */}
-            <div className="mt-12">
-              <a
-                href="/convert"
-                className="inline-flex items-center space-x-2 rounded-xl bg-highlight-primary px-6 py-3 text-sm font-medium text-white transition-all hover:bg-highlight-primary/90"
-              >
-                <span>Try Instant Convert</span>
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </a>
-            </div>
           </motion.div>
 
           {/* Screenshot */}
@@ -118,7 +96,7 @@ export function CryptoConvert() {
             className="relative mx-auto flex items-center justify-center lg:justify-end"
           >
             {/* Phone Mockup */}
-            <div className="relative h-[600px] w-[280px]">
+            <div className="relative h-[630px] w-[320px]">
               <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-highlight-primary/20 to-highlight-secondary/20 backdrop-blur-xl">
                 {/* Inner glow */}
                 <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-highlight-primary/20 to-transparent opacity-50" />

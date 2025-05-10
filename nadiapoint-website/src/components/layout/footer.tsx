@@ -5,21 +5,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTwitter, faDiscord, faTelegram, faGithub } from "@fortawesome/free-brands-svg-icons"
 
 const navigation = {
-  product: [
-    { name: "Exchange", href: "/exchange" },
-    { name: "P2P Trading", href: "/p2p" },
-    { name: "Markets", href: "/markets" },
-    { name: "Wallet", href: "/wallet" },
+  features: [
+    { name: "Instant Convert", href: "/features#convert" },
+    { name: "P2P Trading", href: "/features#p2p" },
+    { name: "Secure Wallet", href: "/features#wallet" },
+    { name: "Portfolio Tracking", href: "/features#portfolio" },
   ],
   company: [
     { name: "About", href: "/about" },
-    { name: "Careers", href: "/careers" },
-    { name: "Blog", href: "/blog" },
-    { name: "Press", href: "/press" },
+    { name: "Contact", href: "/contact" },
   ],
   support: [
     { name: "Help Center", href: "/help" },
-    { name: "Contact", href: "/contact" },
+    { name: "FAQs", href: "/faqs" },
     { name: "App Releases", href: "/releases" },
     { name: "Status", href: "/status" },
   ],
@@ -27,7 +25,7 @@ const navigation = {
     { name: "Privacy Policy", href: "/privacy" },
     { name: "Terms of Service", href: "/terms" },
     { name: "Cookie Policy", href: "/cookies" },
-    { name: "Compliance", href: "/compliance" },
+    { name: "Security", href: "/security" },
   ],
   social: [
     { name: "Twitter", href: "https://twitter.com", icon: faTwitter },
@@ -56,7 +54,7 @@ export function Footer() {
               <span className="text-xl font-bold">NadiaPoint</span>
             </Link>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">
-              A secure and user-friendly cryptocurrency exchange platform. Trade, invest, and manage your digital assets with confidence.
+              Download our mobile app and experience the future of cryptocurrency trading. Fast, secure, and user-friendly crypto trading at your fingertips.
             </p>
             {/* Social Links */}
             <div className="mt-6 flex space-x-6">
@@ -77,9 +75,9 @@ export function Footer() {
 
           {/* Navigation Links */}
           <div>
-            <h3 className="text-sm font-semibold">Product</h3>
+            <h3 className="text-sm font-semibold">Features</h3>
             <ul className="mt-4 space-y-3">
-              {navigation.product.map((item) => (
+              {navigation.features.map((item) => (
                 <li key={item.name}>
                   <Link
                     href={item.href}

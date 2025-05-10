@@ -7,10 +7,11 @@ import { motion } from "@/lib/framer"
 
 const navigation = [
   { name: "Home", href: "/" },
-  { name: "Exchange", href: "/exchange" },
-  { name: "P2P Trading", href: "/p2p" },
-  { name: "Markets", href: "/markets" },
   { name: "About", href: "/about" },
+  { name: "Features", href: "/features" },
+  { name: "App Release", href: "/releases" },
+  { name: "Help Center", href: "/help" },
+  { name: "Contact", href: "/contact" },
 ]
 
 export function Header() {
