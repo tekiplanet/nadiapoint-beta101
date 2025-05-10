@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTwitter, faDiscord, faTelegram, faGithub } from "@fortawesome/free-brands-svg-icons"
+import { Smartsupp } from "@/components/smartsupp"
 
 const navigation = {
   features: [
@@ -38,6 +39,7 @@ const navigation = {
 export function Footer() {
   return (
     <footer className="border-t border-muted bg-background">
+      <Smartsupp />
       <div className="container mx-auto px-6 py-12 lg:px-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-5">
