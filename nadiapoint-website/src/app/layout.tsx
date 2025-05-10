@@ -23,7 +23,7 @@ export default function RootLayout({
           <div suppressHydrationWarning>
             <Header />
             <main className="min-h-screen">
-              {children}
+        {children}
             </main>
           </div>
         </ThemeProvider>

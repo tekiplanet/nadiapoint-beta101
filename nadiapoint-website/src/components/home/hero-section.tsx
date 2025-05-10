@@ -43,7 +43,9 @@ export function HeroSection() {
             <div className="flex flex-wrap gap-4">
               <Link
                 href="/download"
-                className="group relative inline-flex items-center overflow-hidden rounded-full bg-gradient-to-r from-highlight-primary to-highlight-secondary px-8 py-4 font-medium text-dark-background transition-all hover:scale-105"
+                className="group relative inline-flex items-center overflow-hidden rounded-full 
+                  bg-gradient-to-r from-yellow-500 to-yellow-600 dark:from-highlight-primary dark:to-highlight-secondary 
+                  px-8 py-4 font-medium text-white dark:text-dark-background transition-all hover:scale-105"
               >
                 Download App
                 <svg
@@ -59,13 +61,13 @@ export function HeroSection() {
                     d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
                   />
                 </svg>
-                <div className="absolute inset-0 bg-white/20 transition-opacity duration-300 group-hover:opacity-0" />
+                <div className="absolute inset-0 bg-black/10 dark:bg-white/20 transition-opacity duration-300 group-hover:opacity-0" />
               </Link>
             </div>
 
             {/* Trust Badges */}
-            <div className="flex flex-wrap items-center gap-8">
-              <div className="group flex items-center gap-3 transition-transform hover:scale-105">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-8">
+              <div className="group flex items-center gap-3 rounded-xl border-l-4 border-highlight-primary bg-white/5 p-4 shadow-sm transition-transform hover:scale-105 dark:bg-dark-background/40">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 p-2.5">
                   <svg
                     className="h-full w-full text-highlight-primary"
@@ -86,10 +88,10 @@ export function HeroSection() {
                   <span className="text-sm text-muted-foreground">Bank-grade security</span>
                 </div>
               </div>
-              <div className="group flex items-center gap-3 transition-transform hover:scale-105">
+              <div className="group flex items-center gap-3 rounded-xl border-l-4 border-highlight-secondary bg-white/5 p-4 shadow-sm transition-transform hover:scale-105 dark:bg-dark-background/40">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 p-2.5">
                   <svg
-                    className="h-full w-full text-highlight-primary"
+                    className="h-full w-full text-highlight-secondary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -107,10 +109,10 @@ export function HeroSection() {
                   <span className="text-sm text-muted-foreground">Always available</span>
                 </div>
               </div>
-              <div className="group flex items-center gap-3 transition-transform hover:scale-105">
+              <div className="group flex items-center gap-3 rounded-xl border-l-4 border-accent bg-white/5 p-4 shadow-sm transition-transform hover:scale-105 dark:bg-dark-background/40">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 p-2.5">
                   <svg
-                    className="h-full w-full text-highlight-primary"
+                    className="h-full w-full text-accent"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -126,6 +128,27 @@ export function HeroSection() {
                 <div>
                   <span className="block font-semibold">Global Access</span>
                   <span className="text-sm text-muted-foreground">Trade anywhere</span>
+                </div>
+              </div>
+              <div className="group flex items-center gap-3 rounded-xl border-l-4 border-yellow-400 bg-white/5 p-4 shadow-sm transition-transform hover:scale-105 dark:bg-dark-background/40">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 p-2.5">
+                  <svg
+                    className="h-full w-full text-yellow-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <span className="block font-semibold">Multi-Currency</span>
+                  <span className="text-sm text-muted-foreground">Multiple pairs</span>
                 </div>
               </div>
             </div>

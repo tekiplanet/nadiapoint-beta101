@@ -12,6 +12,6 @@ export default function Home() {
       <TradingStats />
       <MobileShowcase />
       <SecurityFeatures />
-    </main>
+      </main>
   )
 }

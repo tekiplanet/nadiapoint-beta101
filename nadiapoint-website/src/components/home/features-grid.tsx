@@ -131,26 +131,35 @@ export function FeaturesGrid() {
             <motion.div
               key={index}
               variants={item}
-              className="card-dark group relative overflow-hidden rounded-2xl p-8 transition-all hover:bg-dark-accent/5"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-8 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-2xl dark:from-gray-900/90 dark:to-gray-800/90"
             >
-              {/* Gradient border */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-highlight-primary/10 to-highlight-secondary/10 transition-all group-hover:opacity-100" />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-highlight-primary/5 via-highlight-secondary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-highlight-primary/10 dark:via-highlight-secondary/10" />
               
               {/* Content */}
               <div className="relative space-y-4">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-highlight-primary/10">
-                  <div className="text-highlight-primary">{feature.icon}</div>
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 dark:from-highlight-primary/20 dark:to-highlight-secondary/20">
+                  <div className="text-highlight-primary transition-colors duration-300 group-hover:text-highlight-secondary">
+                    {feature.icon}
+                  </div>
                 </div>
 
-                <h3 className="text-xl font-semibold">{feature.title}</h3>
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  {feature.title}
+                </h3>
                 
-                <p className="text-muted-foreground">{feature.description}</p>
+                <p className="text-gray-600 dark:text-gray-400">
+                  {feature.description}
+                </p>
               </div>
 
-              {/* Hover effect */}
-              <div className="absolute right-4 top-4 opacity-0 transition-all group-hover:opacity-100">
+              {/* Border Gradient */}
+              <div className="absolute inset-px rounded-2xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-highlight-primary/20 dark:to-highlight-secondary/20" />
+
+              {/* Hover Arrow */}
+              <div className="absolute right-6 top-6 flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-r from-highlight-primary/10 to-highlight-secondary/10 opacity-0 transition-all duration-300 group-hover:opacity-100 dark:from-highlight-primary/20 dark:to-highlight-secondary/20">
                 <svg
-                  className="h-6 w-6 text-highlight-primary"
+                  className="h-4 w-4 text-gray-900 transition-transform duration-300 group-hover:translate-x-0.5 dark:text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -163,6 +172,10 @@ export function FeaturesGrid() {
                   />
                 </svg>
               </div>
+
+              {/* Glow Effect */}
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-highlight-primary/5 blur-2xl transition-all duration-300 group-hover:bg-highlight-primary/10 dark:bg-highlight-primary/10 dark:group-hover:bg-highlight-primary/20" />
+              <div className="absolute -bottom-10 -left-10 h-24 w-24 rounded-full bg-highlight-secondary/5 blur-2xl transition-all duration-300 group-hover:bg-highlight-secondary/10 dark:bg-highlight-secondary/10 dark:group-hover:bg-highlight-secondary/20" />
             </motion.div>
           ))}
         </motion.div>

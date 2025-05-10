@@ -77,8 +77,8 @@ function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: strin
 
   useEffect(() => {
     if (isInView) {
-      const duration = 2000 // Animation duration in milliseconds
-      const steps = 60 // Number of steps to reach the target value
+      const duration = 2000
+      const steps = 60
       const stepDuration = duration / steps
       let currentStep = 0
 
@@ -99,7 +99,7 @@ function AnimatedCounter({ value, suffix = "" }: { value: number; suffix?: strin
   }, [isInView, value])
 
   return (
-    <span ref={ref} className="text-4xl font-bold sm:text-5xl">
+    <span ref={ref} className="block text-4xl font-bold text-highlight-primary transition-colors duration-300 group-hover:text-highlight-secondary sm:text-5xl">
       {count}
       {suffix}
     </span>
@@ -146,24 +146,42 @@ export function TradingStats() {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="card-dark group relative overflow-hidden rounded-2xl p-8 transition-all hover:bg-dark-accent/5"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-8 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-2xl dark:from-gray-900/90 dark:to-gray-800/90"
             >
-              {/* Gradient border */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-highlight-primary/10 to-highlight-secondary/10 transition-all group-hover:opacity-100" />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-highlight-primary/5 via-highlight-secondary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-highlight-primary/10 dark:via-highlight-secondary/10" />
               
               {/* Content */}
               <div className="relative space-y-4">
-                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-highlight-primary/10">
-                  <div className="text-highlight-primary">{stat.icon}</div>
+                <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 dark:from-highlight-primary/20 dark:to-highlight-secondary/20">
+                  <div className="text-highlight-primary transition-colors duration-300 group-hover:text-highlight-secondary">
+                    {stat.icon}
+                  </div>
                 </div>
 
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} />
-                
-                <div>
-                  <h3 className="text-xl font-semibold">{stat.label}</h3>
-                  <p className="mt-1 text-sm text-muted-foreground">{stat.sublabel}</p>
+                <div className="space-y-2">
+                  <AnimatedCounter 
+                    value={stat.value} 
+                    suffix={stat.suffix} 
+                  />
+                  
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                      {stat.label}
+                    </h3>
+                    <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                      {stat.sublabel}
+                    </p>
+                  </div>
                 </div>
               </div>
+
+              {/* Border Gradient */}
+              <div className="absolute inset-px rounded-2xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-highlight-primary/20 dark:to-highlight-secondary/20" />
+
+              {/* Glow Effect */}
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-highlight-primary/5 blur-2xl transition-all duration-300 group-hover:bg-highlight-primary/10 dark:bg-highlight-primary/10 dark:group-hover:bg-highlight-primary/20" />
+              <div className="absolute -bottom-10 -left-10 h-24 w-24 rounded-full bg-highlight-secondary/5 blur-2xl transition-all duration-300 group-hover:bg-highlight-secondary/10 dark:bg-highlight-secondary/10 dark:group-hover:bg-highlight-secondary/20" />
             </div>
           ))}
         </motion.div>
