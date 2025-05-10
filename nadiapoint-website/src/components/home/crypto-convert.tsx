@@ -115,28 +115,28 @@ export function CryptoConvert() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="relative mx-auto lg:mx-0"
+            className="relative mx-auto flex items-center justify-center lg:justify-end"
           >
-            <div className="relative aspect-[4/3] w-full max-w-xl overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-2 shadow-2xl lg:ml-auto">
-              {/* Gradient border */}
-              <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-highlight-primary via-highlight-secondary to-highlight-primary p-[1px]">
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800" />
+            {/* Phone Mockup */}
+            <div className="relative h-[600px] w-[280px]">
+              <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-highlight-primary/20 to-highlight-secondary/20 backdrop-blur-xl">
+                {/* Inner glow */}
+                <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-highlight-primary/20 to-transparent opacity-50" />
               </div>
-              
-              {/* Screenshot */}
-              <div className="relative h-full w-full overflow-hidden rounded-xl">
+              <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
                 <Image
                   src="/images/convert-crypto.png"
                   alt="Crypto conversion interface"
                   fill
-                  className="object-cover"
+                  className="object-cover object-top"
                   priority
                 />
               </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -left-4 -top-4 h-24 w-24 rounded-full bg-highlight-primary/20 blur-2xl" />
-              <div className="absolute -bottom-4 -right-4 h-24 w-24 rounded-full bg-highlight-secondary/20 blur-2xl" />
+              {/* Phone Details */}
+              <div className="absolute left-1/2 top-4 h-6 w-20 -translate-x-1/2 rounded-full bg-dark-background/90">
+                <div className="absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-highlight-primary/50" />
+              </div>
+              <div className="absolute bottom-6 left-1/2 h-1 w-32 -translate-x-1/2 rounded-full bg-white/10" />
             </div>
           </motion.div>
         </div>
