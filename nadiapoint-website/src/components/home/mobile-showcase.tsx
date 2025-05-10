@@ -214,10 +214,13 @@ export function MobileShowcase() {
                   <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-highlight-primary/20 to-transparent opacity-50" />
                 </div>
                 <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
-                  <div className="h-full w-full">
-                    {/* TODO: Replace with actual app screenshot */}
-                    <div className="h-full w-full bg-dark-secondary/50" />
-                  </div>
+                  <Image
+                    src="/images/home-page.png"
+                    alt="SafeJet Exchange Home Screen"
+                    fill
+                    className="object-cover object-top"
+                    priority
+                  />
                 </div>
                 {/* Phone Details */}
                 <div className="absolute left-1/2 top-4 h-6 w-20 -translate-x-1/2 rounded-full bg-dark-background/90">
@@ -233,10 +236,13 @@ export function MobileShowcase() {
                   <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-b from-highlight-secondary/20 to-transparent opacity-50" />
                 </div>
                 <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
-                  <div className="h-full w-full">
-                    {/* TODO: Replace with actual app screenshot */}
-                    <div className="h-full w-full bg-dark-secondary/50" />
-                  </div>
+                  <Image
+                    src="/images/wallet-page.png"
+                    alt="SafeJet Exchange Wallet Screen"
+                    fill
+                    className="object-cover object-top"
+                    priority
+                  />
                 </div>
                 {/* Phone Details */}
                 <div className="absolute left-1/2 top-4 h-6 w-20 -translate-x-1/2 rounded-full bg-dark-background/90">
