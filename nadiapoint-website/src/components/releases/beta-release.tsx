@@ -79,8 +79,8 @@ export function BetaRelease() {
               key={feature.title}
               className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-8 shadow-lg transition-all duration-300 hover:shadow-xl dark:from-gray-900/90 dark:to-gray-800/90"
             >
-              <div className="mb-6 inline-flex rounded-xl bg-gradient-to-r from-highlight-primary to-highlight-secondary p-3 text-white">
-                <FontAwesomeIcon icon={feature.icon} className="h-6 w-6" />
+              <div className="mb-6 inline-flex rounded-xl bg-gray-900 p-3 dark:bg-gradient-to-r dark:from-highlight-primary dark:to-highlight-secondary">
+                <FontAwesomeIcon icon={feature.icon} className="h-6 w-6 text-white" />
               </div>
               <h3 className="mb-4 text-lg font-semibold">{feature.title}</h3>
               <ul className="space-y-2 text-sm text-muted-foreground">

@@ -8,7 +8,7 @@ import {
 
 export const betaRelease: ReleaseData = {
   version: "Beta 1.0.0",
-  date: "March 15, 2024",
+  date: "May 10, 2025",
   type: "Beta Release",
   description: "Initial beta release of NadiaPoint Exchange mobile app with core trading features and security implementations.",
   features: [
