@@ -9,17 +9,23 @@ const highlights = [
   {
     icon: faShieldHalved,
     title: "Security First",
-    description: "Enterprise-grade security protocols protecting your assets 24/7"
+    description: "Enterprise-grade security protocols protecting your assets 24/7",
+    color: "from-blue-500 to-indigo-600",
+    borderColor: "border-l-blue-500"
   },
   {
     icon: faRocket,
     title: "Innovation Driven",
-    description: "Cutting-edge technology powering seamless trading experiences"
+    description: "Cutting-edge technology powering seamless trading experiences",
+    color: "from-purple-500 to-violet-600",
+    borderColor: "border-l-purple-500"
   },
   {
     icon: faGlobe,
     title: "Global Access",
-    description: "Trade from anywhere with our mobile-first platform"
+    description: "Trade from anywhere with our mobile-first platform",
+    color: "from-emerald-500 to-green-600",
+    borderColor: "border-l-emerald-500"
   }
 ]
 
@@ -65,9 +71,9 @@ export function Overview() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="flex items-start gap-4"
+                  className={`flex items-start gap-4 rounded-lg border-l-4 bg-gradient-to-r from-gray-50/50 to-transparent p-4 dark:from-gray-900/50 ${highlight.borderColor}`}
                 >
-                  <div className="rounded-lg bg-gradient-to-br from-highlight-primary to-highlight-secondary p-3 text-white">
+                  <div className={`rounded-lg bg-gradient-to-br ${highlight.color} p-3 text-white shadow-lg`}>
                     <FontAwesomeIcon icon={highlight.icon} className="h-5 w-5" />
                   </div>
                   <div>
