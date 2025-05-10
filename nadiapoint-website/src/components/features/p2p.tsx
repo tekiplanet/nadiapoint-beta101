@@ -154,16 +154,40 @@ export function P2PFeatures() {
           >
             <div className="w-full max-w-xl">
               {/* Interface Preview */}
-              <div className="relative mb-12 aspect-[4/3] w-full overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-2 shadow-2xl">
-                <Image
-                  src="/images/p2p-interface.png"
-                  alt="SafeJet Exchange P2P Trading Interface"
-                  fill
-                  className="rounded-xl object-cover"
-                  priority
-                />
-                {/* Overlay gradient */}
-                <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-gray-900/20 to-transparent" />
+              <div className="relative mb-12 w-[300px] mx-auto">
+                <div className="relative h-[600px] w-full">
+                  <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-highlight-primary/20 to-highlight-secondary/20 backdrop-blur-xl">
+                    <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-highlight-primary/20 to-transparent opacity-50" />
+                  </div>
+                  <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
+                    <Image
+                      src="/images/p2p.png"
+                      alt="SafeJet Exchange P2P Trading Interface"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                  {/* Phone Details */}
+                  <div className="absolute left-1/2 top-4 h-6 w-20 -translate-x-1/2 rounded-full bg-dark-background/90">
+                    <div className="absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-highlight-primary/50" />
+                  </div>
+                  <div className="absolute bottom-6 left-1/2 h-1 w-32 -translate-x-1/2 rounded-full bg-white/10" />
+                </div>
+
+                {/* Background Phone */}
+                <div className="absolute -right-32 top-12 h-[500px] w-[250px] -rotate-6 opacity-40">
+                  <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-highlight-primary/20 to-highlight-secondary/20 backdrop-blur-xl" />
+                  <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
+                    <Image
+                      src="/images/p2p.png"
+                      alt="SafeJet Exchange P2P Trading Interface"
+                      fill
+                      className="object-cover"
+                      priority
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Trading Steps */}

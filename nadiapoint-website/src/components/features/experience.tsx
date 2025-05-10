@@ -8,9 +8,11 @@ import {
   faLightbulb,
   faKeyboard,
   faChartSimple,
-  faCircleQuestion
+  faCircleQuestion,
+  faMoon,
+  faDisplay,
+  faBolt
 } from "@fortawesome/free-solid-svg-icons"
-import Image from "next/image"
 
 const experienceFeatures = [
   {
@@ -59,19 +61,22 @@ const experienceFeatures = [
 
 const interfaceHighlights = [
   {
+    icon: faMoon,
     title: "Dark/Light Mode",
     description: "Switch between themes to suit your preference and reduce eye strain",
-    image: "/images/theme-switch.png"
+    color: "from-purple-500 to-violet-600"
   },
   {
+    icon: faDisplay,
     title: "Responsive Design",
     description: "Seamless experience across all devices and screen sizes",
-    image: "/images/responsive-ui.png"
+    color: "from-blue-500 to-indigo-600"
   },
   {
+    icon: faBolt,
     title: "Quick Trading",
     description: "Execute trades in just a few clicks with our optimized interface",
-    image: "/images/quick-trade.png"
+    color: "from-emerald-500 to-green-600"
   }
 ]
 
@@ -155,28 +160,15 @@ export function UserExperience() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-2 shadow-xl"
+              className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-8 text-center shadow-lg transition-all duration-300 hover:shadow-xl dark:from-gray-900/90 dark:to-gray-800/90"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl">
-                <Image
-                  src={highlight.image}
-                  alt={highlight.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  priority
-                />
-                {/* Content Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/20 to-transparent">
-                  <div className="absolute bottom-0 p-6">
-                    <h3 className="mb-2 text-lg font-semibold text-white">
-                      {highlight.title}
-                    </h3>
-                    <p className="text-sm text-gray-300">
-                      {highlight.description}
-                    </p>
-                  </div>
-                </div>
+              <div className={`mx-auto mb-6 inline-flex rounded-xl bg-gradient-to-br ${highlight.color} p-4 text-white shadow-lg`}>
+                <FontAwesomeIcon icon={highlight.icon} className="h-8 w-8" />
               </div>
+              <h3 className="mb-3 text-xl font-semibold">{highlight.title}</h3>
+              <p className="text-muted-foreground">{highlight.description}</p>
+              {/* Decorative element */}
+              <div className={`absolute -right-8 -top-8 h-24 w-24 rounded-full bg-gradient-to-br ${highlight.color} opacity-10 blur-xl transition-all duration-300 group-hover:opacity-20`} />
             </motion.div>
           ))}
         </motion.div>

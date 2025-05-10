@@ -121,16 +121,41 @@ export function TradingFeatures() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="relative flex items-center justify-center lg:justify-end"
           >
-            <div className="relative aspect-[4/3] w-full max-w-2xl overflow-hidden rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-2 shadow-2xl">
-              <Image
-                src="/images/wallet-page.png"
-                alt="SafeJet Exchange Trading Interface"
-                fill
-                className="rounded-xl object-cover"
-                priority
-              />
-              {/* Overlay gradient */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-t from-gray-900/20 to-transparent" />
+            <div className="relative">
+              {/* Main Phone */}
+              <div className="relative h-[600px] w-[300px]">
+                <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-highlight-primary/20 to-highlight-secondary/20 backdrop-blur-xl">
+                  <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-t from-highlight-primary/20 to-transparent opacity-50" />
+                </div>
+                <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
+                  <Image
+                    src="/images/wallet-page.png"
+                    alt="SafeJet Exchange Trading Interface"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                {/* Phone Details */}
+                <div className="absolute left-1/2 top-4 h-6 w-20 -translate-x-1/2 rounded-full bg-dark-background/90">
+                  <div className="absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-highlight-primary/50" />
+                </div>
+                <div className="absolute bottom-6 left-1/2 h-1 w-32 -translate-x-1/2 rounded-full bg-white/10" />
+              </div>
+
+              {/* Background Phone */}
+              <div className="absolute -right-32 top-12 h-[500px] w-[250px] -rotate-6 opacity-40">
+                <div className="absolute inset-0 rounded-[3rem] bg-gradient-to-br from-highlight-primary/20 to-highlight-secondary/20 backdrop-blur-xl" />
+                <div className="absolute inset-2 overflow-hidden rounded-[2.75rem] bg-dark-background">
+                  <Image
+                    src="/images/trading-interface.png"
+                    alt="SafeJet Exchange Trading Charts"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>

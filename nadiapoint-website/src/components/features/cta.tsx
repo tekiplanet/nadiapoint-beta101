@@ -100,20 +100,24 @@ export function FeaturesCTA() {
           className="mx-auto flex max-w-md flex-col items-center gap-4 text-center"
         >
           <Link
-            href="/register"
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-highlight-primary to-highlight-secondary px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            href="/contact"
+            className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-8 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-xl dark:bg-gradient-to-r dark:from-highlight-primary dark:to-highlight-secondary"
           >
-            Create Free Account
+            Contact Us
             <FontAwesomeIcon 
               icon={faArrowRight} 
               className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
             />
           </Link>
           <Link
-            href="/login"
-            className="inline-flex w-full items-center justify-center rounded-xl border border-gray-200 bg-white/50 px-8 py-4 text-lg font-semibold backdrop-blur-sm transition-all duration-300 hover:bg-white/80 dark:border-gray-800 dark:bg-gray-900/50 dark:hover:bg-gray-900/80"
+            href="/download"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:bg-gray-50 hover:shadow-xl dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
           >
-            Sign In
+            Download App
+            <FontAwesomeIcon 
+              icon={faArrowRight} 
+              className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" 
+            />
           </Link>
         </motion.div>
 
