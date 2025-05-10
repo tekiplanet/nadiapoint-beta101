@@ -176,25 +176,6 @@ export function P2PTrading() {
           transition={{ duration: 0.5, delay: 0.6 }}
           className="mx-auto mt-16 text-center"
         >
-          <a
-            href="/p2p"
-            className="inline-flex items-center space-x-2 rounded-xl bg-highlight-primary px-6 py-3 text-sm font-medium text-white transition-all hover:bg-highlight-primary/90"
-          >
-            <span>Start P2P Trading</span>
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
-          </a>
         </motion.div>
       </div>
     </section>
