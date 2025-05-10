@@ -2,6 +2,8 @@
 
 import { motion } from "@/lib/framer"
 import Image from "next/image"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faApple, faGooglePlay } from "@fortawesome/free-brands-svg-icons"
 
 const features = [
   {
@@ -115,15 +117,30 @@ export function MobileShowcase() {
                 <motion.div
                   key={index}
                   variants={item}
-                  className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-6 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-2xl dark:from-gray-900/90 dark:to-gray-800/90"
+                  className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-6 transition-all duration-300 hover:translate-y-[-2px] hover:shadow-2xl dark:from-gray-900/90 dark:to-gray-800/90 border-l-4 ${
+                    index === 0 ? "border-highlight-primary" : 
+                    index === 1 ? "border-highlight-secondary" :
+                    index === 2 ? "border-accent" :
+                    "border-yellow-400"
+                  }`}
                 >
                   {/* Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-highlight-primary/5 via-highlight-secondary/5 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 dark:from-highlight-primary/10 dark:via-highlight-secondary/10" />
                   
                   {/* Content */}
                   <div className="relative space-y-3">
-                    <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-highlight-primary/10 to-highlight-secondary/10 dark:from-highlight-primary/20 dark:to-highlight-secondary/20">
-                      <div className="text-highlight-primary transition-colors duration-300 group-hover:text-highlight-secondary">
+                    <div className={`inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br ${
+                      index === 0 ? "from-highlight-primary/10 to-highlight-secondary/10 dark:from-highlight-primary/20" : 
+                      index === 1 ? "from-highlight-secondary/10 to-highlight-primary/10 dark:from-highlight-secondary/20" :
+                      index === 2 ? "from-accent/10 to-highlight-primary/10 dark:from-accent/20" :
+                      "from-yellow-400/10 to-highlight-primary/10 dark:from-yellow-400/20"
+                    } dark:to-highlight-secondary/20`}>
+                      <div className={`${
+                        index === 0 ? "text-highlight-primary" :
+                        index === 1 ? "text-highlight-secondary" :
+                        index === 2 ? "text-accent" :
+                        "text-yellow-400"
+                      } transition-colors duration-300 group-hover:text-highlight-secondary`}>
                         {feature.icon}
                       </div>
                     </div>
@@ -139,8 +156,18 @@ export function MobileShowcase() {
                   </div>
 
                   {/* Glow Effect */}
-                  <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-highlight-primary/5 blur-2xl transition-all duration-300 group-hover:bg-highlight-primary/10 dark:bg-highlight-primary/10 dark:group-hover:bg-highlight-primary/20" />
-                  <div className="absolute -bottom-10 -left-10 h-24 w-24 rounded-full bg-highlight-secondary/5 blur-2xl transition-all duration-300 group-hover:bg-highlight-secondary/10 dark:bg-highlight-secondary/10 dark:group-hover:bg-highlight-secondary/20" />
+                  <div className={`absolute -right-10 -top-10 h-24 w-24 rounded-full ${
+                    index === 0 ? "bg-highlight-primary/5" :
+                    index === 1 ? "bg-highlight-secondary/5" :
+                    index === 2 ? "bg-accent/5" :
+                    "bg-yellow-400/5"
+                  } blur-2xl transition-all duration-300 group-hover:bg-highlight-primary/10 dark:bg-highlight-primary/10 dark:group-hover:bg-highlight-primary/20`} />
+                  <div className={`absolute -bottom-10 -left-10 h-24 w-24 rounded-full ${
+                    index === 0 ? "bg-highlight-secondary/5" :
+                    index === 1 ? "bg-highlight-primary/5" :
+                    index === 2 ? "bg-highlight-primary/5" :
+                    "bg-highlight-secondary/5"
+                  } blur-2xl transition-all duration-300 group-hover:bg-highlight-secondary/10 dark:bg-highlight-secondary/10 dark:group-hover:bg-highlight-secondary/20`} />
                 </motion.div>
               ))}
             </motion.div>
@@ -149,35 +176,23 @@ export function MobileShowcase() {
             <div className="mt-12 flex flex-wrap gap-4">
               <a
                 href="#"
-                className="group relative inline-flex items-center space-x-4 overflow-hidden rounded-xl bg-gradient-to-r from-highlight-primary to-highlight-secondary p-[1px] transition-all hover:scale-105"
+                className="flex items-center gap-4 rounded-xl bg-gray-900 px-6 py-3 transition-all duration-300 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
-                <div className="relative inline-flex items-center space-x-4 rounded-xl bg-background px-6 py-3 transition-all dark:bg-dark-background">
-                  <svg className="h-8 w-8 text-highlight-primary dark:text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.05 20.28c-.98.954-2.054.954-3.097.954-1.043 0-2.147-.954-3.145-.954-1.043 0-2.147.954-3.145.954-1.043 0-2.117 0-3.097-.954-2.117-2.117-2.264-7.017 0-9.134.98-.954 2.735-1.542 3.778-.477.954.954 2.117.954 3.145.954 1.043 0 2.147-.954 3.145-.954.954 0 2.798.477 3.778 1.431.637.637 1.043 1.542 1.043 2.483-2.798 1.671-2.324 5.752.595 6.697zm-5.214-15.52c.98-1.19.98-2.735 0-3.925-.954.477-1.671 1.19-2.147 2.117-.477.954-.477 2.147 0 3.145 1.043-.477 1.76-1.19 2.147-2.117v.78z" />
-                  </svg>
-                  <div className="flex flex-col">
-                    <span className="text-xs text-gray-600 dark:text-gray-400">Download on the</span>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                      App Store
-                    </span>
-                  </div>
+                <FontAwesomeIcon icon={faApple} className="h-8 w-8 text-white" />
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-300">Download on the</span>
+                  <span className="text-sm font-semibold text-white">App Store</span>
                 </div>
               </a>
 
               <a
                 href="#"
-                className="group relative inline-flex items-center space-x-4 overflow-hidden rounded-xl bg-gradient-to-r from-highlight-secondary to-highlight-primary p-[1px] transition-all hover:scale-105"
+                className="flex items-center gap-4 rounded-xl bg-gray-900 px-6 py-3 transition-all duration-300 hover:bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700"
               >
-                <div className="relative inline-flex items-center space-x-4 rounded-xl bg-background px-6 py-3 transition-all dark:bg-dark-background">
-                  <svg className="h-8 w-8 text-highlight-secondary dark:text-white" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M3.609 1.814L13.792 12l-10.183 10.186L3.609 22.186 13.792 12 3.609 1.814zM14.209 1.814L24.392 12 14.209 22.186l10.183-10.186L14.209 1.814z" />
-                  </svg>
-                  <div className="flex flex-col">
-                    <span className="text-xs text-gray-600 dark:text-gray-400">GET IT ON</span>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">
-                      Google Play
-                    </span>
-                  </div>
+                <FontAwesomeIcon icon={faGooglePlay} className="h-8 w-8 text-white" />
+                <div className="flex flex-col">
+                  <span className="text-xs text-gray-300">GET IT ON</span>
+                  <span className="text-sm font-semibold text-white">Google Play</span>
                 </div>
               </a>
             </div>
