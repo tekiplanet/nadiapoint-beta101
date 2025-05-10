@@ -42,7 +42,7 @@ export function HeroSection() {
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4">
               <Link
-                href="/download"
+                href="/release"
                 className="group relative inline-flex items-center overflow-hidden rounded-full 
                   bg-gradient-to-r from-yellow-500 to-yellow-600 dark:from-highlight-primary dark:to-highlight-secondary 
                   px-8 py-4 font-medium text-white dark:text-dark-background transition-all hover:scale-105"

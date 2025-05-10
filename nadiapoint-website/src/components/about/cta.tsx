@@ -29,7 +29,7 @@ export function AboutCTA() {
           
           <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
             <motion.a
-              href="/download"
+              href="/release"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               className="inline-flex w-full items-center justify-center rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 px-6 py-3 text-sm font-medium text-white shadow-lg transition-all duration-300 hover:shadow-xl sm:w-auto"

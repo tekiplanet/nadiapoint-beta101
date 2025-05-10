@@ -110,7 +110,7 @@ export function FeaturesCTA() {
             />
           </Link>
           <Link
-            href="/download"
+            href="/release"
             className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-white px-8 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all duration-300 hover:bg-gray-50 hover:shadow-xl dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
           >
             Download App

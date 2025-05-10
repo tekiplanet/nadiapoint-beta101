@@ -18,9 +18,8 @@ const navigation = {
   ],
   support: [
     { name: "Help Center", href: "/help" },
-    { name: "FAQs", href: "/faqs" },
-    { name: "App Releases", href: "/releases" },
-    { name: "Status", href: "/status" },
+    { name: "FAQs", href: "/help" },
+    { name: "App Releases", href: "/release" },
   ],
   legal: [
     { name: "Privacy Policy", href: "/privacy" },

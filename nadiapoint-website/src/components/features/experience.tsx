@@ -82,7 +82,7 @@ const interfaceHighlights = [
 
 export function UserExperience() {
   return (
-    <section className="relative overflow-hidden bg-background py-24 sm:py-32">
+    <section id="portfolio" className="relative overflow-hidden bg-background py-24 sm:py-32">
       {/* Background elements */}
       <div className="absolute inset-0">
         <div className="absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-highlight-primary/10 to-transparent blur-3xl" />

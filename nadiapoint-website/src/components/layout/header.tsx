@@ -95,7 +95,7 @@ export function Header() {
             {/* Download App Button - Desktop */}
             <div className="hidden lg:block">
               <Link
-                href="/download"
+                href="/release"
                 className="rounded-lg bg-highlight-primary px-4 py-2 text-sm font-medium text-dark-background transition-all hover:bg-highlight-primary/90"
               >
                 Download App
@@ -167,7 +167,7 @@ export function Header() {
             ))}
             <div className="pt-4">
               <Link
-                href="/download"
+                href="/release"
                 className="flex items-center justify-center rounded-lg bg-highlight-primary px-4 py-2 text-base font-medium text-dark-background transition-all hover:bg-highlight-primary/90"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
