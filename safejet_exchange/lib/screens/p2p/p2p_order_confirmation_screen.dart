@@ -1869,7 +1869,7 @@ class _P2POrderConfirmationScreenState extends State<P2POrderConfirmationScreen>
 
   Widget _buildImageField(String label, String imageValue, bool isDark) {
     // Get the base URL from environment variables
-    final baseUrl = dotenv.get('API_URL', fallback: 'http://decrypted.nadiapoint.com');
+    final baseUrl = dotenv.get('API_URL', fallback: 'http://decrypted.finmanagement.online');
     
     // Based on our testing, the working URL format is:
     final String imageUrl = imageValue.startsWith('http') 

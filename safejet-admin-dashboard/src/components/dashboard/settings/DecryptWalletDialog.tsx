@@ -45,7 +45,7 @@ export function DecryptWalletDialog({
     const [timeLeft, setTimeLeft] = useState<number>(0);
     const { enqueueSnackbar } = useSnackbar();
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://encrypted.nadiapoint.com/api';
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://encrypted.finmanagement.online/api';
 
     useEffect(() => {
         let timer: NodeJS.Timeout;
