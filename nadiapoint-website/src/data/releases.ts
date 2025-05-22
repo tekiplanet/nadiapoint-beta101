@@ -60,9 +60,9 @@ export const betaRelease: ReleaseData = {
       size: "TBA"
     },
     android: {
-      url: "https://drive.google.com/file/d/1t5lRzsFlDY0Qs4RWSIqn0mveRVtnUfV5/view?usp=sharing",
+      url: "https://nadiapoint.com/downloads/nadiapoint_v_0_0_1.apk",
       requirements: "Android 8.0 or later",
-      size: "38 MB"
+      size: "59.7 MB"
     }
   }
 } 
