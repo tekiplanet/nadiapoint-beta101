@@ -91,7 +91,7 @@ export function DepositManagement() {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [processingDepositId, setProcessingDepositId] = useState<string | null>(null);
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://encrypted.finmanagement.online/api';
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://encrypted.universalstrader.online/api';
 
     const formatAmount = (amount: string): string => {
         try {

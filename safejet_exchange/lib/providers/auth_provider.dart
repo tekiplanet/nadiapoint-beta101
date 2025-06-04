@@ -21,19 +21,21 @@ class AuthProvider with ChangeNotifier {
   String? _lastVerificationToken;
 
   AuthProvider() {
-    // Only check auth status on startup, don't start refresh timer yet
+    // Check auth status and start refresh timer on startup
     checkAuthStatus().then((_) {
-      // Only start refresh timer if user is logged in
       if (_isLoggedIn) {
         _startPeriodicRefresh();
+        _scheduleTokenRefresh(); // Add this line to schedule initial token refresh
       }
     });
   }
 
   void _startPeriodicRefresh() {
+    _refreshTimer?.cancel(); // Cancel existing timer if any
     _refreshTimer = Timer.periodic(const Duration(minutes: 5), (_) {
-      // Don't make API calls, just check stored data
-      checkAuthStatus();
+      if (_isLoggedIn) {
+        checkAuthStatus();
+      }
     });
   }
 
@@ -156,14 +158,21 @@ class AuthProvider with ChangeNotifier {
         return;
       }
 
+      // Check if token is about to expire (within 5 minutes)
+      final expiryTime = _tokenExpiryTime;
+      if (expiryTime != null && DateTime.now().isAfter(expiryTime.subtract(const Duration(minutes: 5)))) {
+        await refreshToken();
+      }
+
       // Try to get user from storage first
       final userJson = await _authService.storage.read(key: 'user');
       if (userJson != null) {
         _user = User.fromJson(json.decode(userJson));
         _isLoggedIn = true;
+        _updateTokenExpiry(token); // Update expiry time from current token
       }
     } catch (e) {
-      print('Error checking auth status');
+      print('Error checking auth status: $e');
       _isLoggedIn = false;
       _user = null;
     } finally {
@@ -639,10 +648,10 @@ class AuthProvider with ChangeNotifier {
       // exp is in seconds, convert to DateTime
       _tokenExpiryTime = DateTime.fromMillisecondsSinceEpoch(payload['exp'] * 1000);
       
-      // Schedule token refresh 5 minutes before expiration
+      // Schedule token refresh
       _scheduleTokenRefresh();
     } catch (e) {
-      print('Error parsing token');
+      print('Error parsing token: $e');
     }
   }
 
@@ -672,22 +681,10 @@ class AuthProvider with ChangeNotifier {
 
       print('Scheduling token refresh in ${refreshTime.inMinutes} minutes');
       _tokenRefreshTimer = Timer(refreshTime, () async {
-        try {
-          final response = await _authService.refreshToken();
-          if (response['accessToken'] != null) {
-            _updateTokenExpiry(response['accessToken']);
-            print('Token refreshed successfully');
-          } else {
-            print('No access token in refresh response');
-            await handleSessionExpiration();
-          }
-        } catch (e) {
-          print('Error during scheduled token refresh');
-          await handleSessionExpiration();
-        }
+        await refreshToken();
       });
     } catch (e) {
-      print('Error scheduling token refresh');
+      print('Error scheduling token refresh: $e');
       handleSessionExpiration();
     }
   }
@@ -695,27 +692,39 @@ class AuthProvider with ChangeNotifier {
   Future<void> refreshToken() async {
     try {
       final refreshToken = await _authService.storage.read(key: 'refreshToken');
-      if (refreshToken == null) throw 'No refresh token';
+      if (refreshToken == null) {
+        await handleSessionExpiration();
+        return;
+      }
 
       final response = await _authService.refreshToken();
       
+      if (response['accessToken'] == null) {
+        throw 'No access token in refresh response';
+      }
+
       // Update stored tokens
       await _authService.storage.write(
         key: 'accessToken',
         value: response['accessToken'],
       );
       
+      if (response['refreshToken'] != null) {
+        await _authService.storage.write(
+          key: 'refreshToken',
+          value: response['refreshToken'],
+        );
+      }
+      
       // Update token expiry
       _updateTokenExpiry(response['accessToken']);
       
+      // Reschedule token refresh
+      _scheduleTokenRefresh();
+      
     } catch (e) {
-      // Only clear auth state if refresh actually failed
-      if (e is DioException && e.response?.statusCode == 401) {
-        await logout();
-        rethrow;
-      }
-      // Other errors might be temporary
-      rethrow;
+      print('Error refreshing token: $e');
+      await handleSessionExpiration();
     }
   }
 
