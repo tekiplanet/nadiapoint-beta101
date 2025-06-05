@@ -33,7 +33,7 @@ class DarkTheme {
         fontSize: 14,
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: SafeJetColors.secondaryBackground,
       elevation: 0,
       shape: RoundedRectangleBorder(

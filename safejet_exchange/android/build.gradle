@@ -3,6 +3,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.1.0'
@@ -14,6 +17,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://plugins.gradle.org/m2/' }
     }
 
     subprojects {
@@ -22,6 +28,11 @@ allprojects {
                 android {
                     if (project.name == 'flutter_idensic_mobile_sdk_plugin') {
                         namespace "com.sumsub.idensic.mobile.sdk.plugin"
+                        compileSdkVersion 33
+                        defaultConfig {
+                            minSdkVersion 21
+                            targetSdkVersion 33
+                        }
                     }
                     else if (project.name == 'mobile_scanner') {
                         namespace "dev.steenbakker.mobile_scanner"

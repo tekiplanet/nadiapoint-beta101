@@ -47,6 +47,7 @@ class AuthProvider with ChangeNotifier {
 
   bool get isLoading => _isLoading;
   bool get isLoggedIn => _isLoggedIn;
+  bool get isAuthenticated => _isLoggedIn;  // Alias for isLoggedIn
   String? get error => _error;
   User? get user => _user;
 
@@ -149,8 +150,12 @@ class AuthProvider with ChangeNotifier {
       notifyListeners();
 
       final token = await _authService.storage.read(key: 'accessToken');
+      final userJson = await _authService.storage.read(key: 'user');
+      print('[AuthProvider] checkAuthStatus: token=$token');
+      print('[AuthProvider] checkAuthStatus: userJson=$userJson');
       
       if (token == null) {
+        print('[AuthProvider] No token found. Not logged in.');
         _isLoading = false;
         _isLoggedIn = false;
         _user = null;
@@ -161,15 +166,20 @@ class AuthProvider with ChangeNotifier {
       // Check if token is about to expire (within 5 minutes)
       final expiryTime = _tokenExpiryTime;
       if (expiryTime != null && DateTime.now().isAfter(expiryTime.subtract(const Duration(minutes: 5)))) {
+        print('[AuthProvider] Token is about to expire, refreshing...');
         await refreshToken();
       }
 
       // Try to get user from storage first
-      final userJson = await _authService.storage.read(key: 'user');
       if (userJson != null) {
         _user = User.fromJson(json.decode(userJson));
         _isLoggedIn = true;
         _updateTokenExpiry(token); // Update expiry time from current token
+        print('[AuthProvider] User loaded and logged in.');
+      } else {
+        print('[AuthProvider] No user found in storage.');
+        _isLoggedIn = false;
+        _user = null;
       }
     } catch (e) {
       print('Error checking auth status: $e');
@@ -592,14 +602,23 @@ class AuthProvider with ChangeNotifier {
       // First try to load from storage
       final storage = const FlutterSecureStorage();
       final userJson = await storage.read(key: 'user');
+      final token = await storage.read(key: 'accessToken');
       
-      if (userJson != null) {
+      if (userJson != null && token != null) {
         final userData = json.decode(userJson);
         _user = User.fromJson(userData);
+        _isLoggedIn = true;
+        notifyListeners();
+      } else {
+        _isLoggedIn = false;
+        _user = null;
         notifyListeners();
       }
     } catch (e) {
       print('Error loading user data');
+      _isLoggedIn = false;
+      _user = null;
+      notifyListeners();
       rethrow;
     }
   }

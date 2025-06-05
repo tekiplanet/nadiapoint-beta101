@@ -151,8 +151,27 @@ class AuthService {
   }
 
   Future<bool> isLoggedIn() async {
-    final token = await storage.read(key: 'accessToken');
-    return token != null;
+    try {
+      final token = await storage.read(key: 'accessToken');
+      if (token == null) return false;
+
+      // Verify token by making a request to a protected endpoint
+      final response = await _dio.get(
+        '/me',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error checking login status: $e');
+      // If there's any error, clear the tokens
+      await storage.deleteAll();
+      return false;
+    }
   }
 
   Future<Map<String, dynamic>> register(

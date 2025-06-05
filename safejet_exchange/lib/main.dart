@@ -25,6 +25,7 @@ import '../services/language_settings_service.dart';
 import 'providers/biometric_settings_provider.dart';
 import '../services/biometric_settings_service.dart';
 import './services/p2p_service.dart';
+import 'screens/main/home_screen.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -90,9 +91,7 @@ void main() async {
           ),
         ),
       ],
-      child: AuthWrapper(
-        child: const MyApp(),
-      ),
+      child: const MyApp(),
     ),
   );
 }
@@ -114,16 +113,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: themeProvider.theme,
       navigatorKey: navigatorKey,
-      home: FutureBuilder<bool>(
-        future: isFirstLaunch(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          return snapshot.data == true
-              ? const OnboardingScreen()
-              : const LoginScreen();
-        },
+      home: AuthWrapper(
+        child: FutureBuilder<bool>(
+          future: isFirstLaunch(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const SplashScreen();
+            }
+            return snapshot.data == true
+                ? const OnboardingScreen()
+                : const HomeScreen();
+          },
+        ),
       ),
     );
   }

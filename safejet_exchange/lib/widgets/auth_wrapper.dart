@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
+import '../screens/auth/login_screen.dart';
 
 class AuthWrapper extends StatefulWidget {
   final Widget child;
@@ -15,21 +16,49 @@ class AuthWrapper extends StatefulWidget {
 }
 
 class _AuthWrapperState extends State<AuthWrapper> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    // Initial load of user data
-    _loadUserData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadUserData();
+    });
   }
 
   Future<void> _loadUserData() async {
     if (mounted) {
-      await Provider.of<AuthProvider>(context, listen: false).loadUserData();
+      try {
+        await Provider.of<AuthProvider>(context, listen: false).checkAuthStatus();
+      } catch (e) {
+        print('Error loading user data: $e');
+      } finally {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.child;
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return Consumer<AuthProvider>(
+      builder: (context, authProvider, _) {
+        if (authProvider.isAuthenticated) {
+          return widget.child;
+        }
+        return const LoginScreen();
+      },
+    );
   }
 } 

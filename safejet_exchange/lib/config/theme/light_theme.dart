@@ -33,7 +33,7 @@ class LightTheme {
         fontSize: 14,
       ),
     ),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: SafeJetColors.lightSecondaryBackground,
       elevation: 0,
       shape: RoundedRectangleBorder(
