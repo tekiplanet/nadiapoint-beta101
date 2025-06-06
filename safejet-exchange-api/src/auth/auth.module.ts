@@ -13,6 +13,7 @@ import { TwilioModule } from '../twilio/twilio.module';
 import { P2PSettingsModule } from '../p2p-settings/p2p-settings.module';
 import { WalletModule } from '../wallet/wallet.module';
 import { AdminUserController } from './admin/user.controller';
+import { TermiiModule } from '../termii/termii.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AdminUserController } from './admin/user.controller';
     TwilioModule,
     P2PSettingsModule,
     forwardRef(() => WalletModule),
+    TermiiModule,
   ],
   controllers: [
     AuthController,

@@ -477,7 +477,7 @@ class AuthProvider with ChangeNotifier {
       await _updateStoredUser(updatedUser);
 
     } catch (e) {
-      _error = e.toString();
+      _error = e.toString().replaceAll('Exception: ', '').replaceAll('Error: ', '');
       if (e.toString().contains('Session expired')) {
         await handleSessionExpiration();
       }

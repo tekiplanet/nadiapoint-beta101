@@ -640,9 +640,14 @@ class AuthService {
         return data;
       }
       
+      // Handle error responses
+      if (response.statusCode == 409) {
+        throw 'This phone number is already in use by another account';
+      }
+      
       throw data['message'] ?? 'Failed to update phone number';
     } catch (e) {
-      print('Update phone error');
+      print('Update phone error: $e');
       rethrow;
     }
   }

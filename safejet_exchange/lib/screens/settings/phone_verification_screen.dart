@@ -6,6 +6,7 @@ import '../../providers/kyc_provider.dart';
 import 'package:country_picker/country_picker.dart';
 import '../../providers/auth_provider.dart';
 import 'dart:async';
+import '../../screens/support/support_screen.dart';
 
 class PhoneVerificationScreen extends StatefulWidget {
   const PhoneVerificationScreen({super.key});
@@ -397,8 +398,103 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                 ],
               ),
             ],
+            const SizedBox(height: 32),
+            _buildSupportNotice(context, isDark),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildSupportNotice(BuildContext context, bool isDark) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      margin: const EdgeInsets.only(top: 8),
+      decoration: BoxDecoration(
+        color: isDark
+            ? SafeJetColors.primaryAccent.withOpacity(0.10)
+            : SafeJetColors.lightCardBackground,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          color: isDark
+              ? SafeJetColors.secondaryHighlight.withOpacity(0.18)
+              : SafeJetColors.lightCardBorder,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isDark
+                ? Colors.black.withOpacity(0.10)
+                : SafeJetColors.primaryAccent.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: SafeJetColors.secondaryHighlight.withOpacity(0.13),
+              shape: BoxShape.circle,
+            ),
+            child: const Icon(
+              Icons.support_agent_rounded,
+              color: SafeJetColors.secondaryHighlight,
+              size: 28,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Having trouble with phone verification?',
+                  style: TextStyle(
+                    color: isDark ? Colors.white : Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  'Contact support to complete your verification.',
+                  style: TextStyle(
+                    color: isDark ? Colors.grey[400] : Colors.grey[700],
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SupportScreen(),
+                ),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: SafeJetColors.secondaryHighlight,
+              foregroundColor: Colors.black,
+              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              elevation: 0,
+            ),
+            child: const Text(
+              'Contact Support',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -425,7 +521,6 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
       final countryName = _selectedCountry!.name;
       final fullPhoneNumber = '$countryCode$phoneNumber';
 
-      // TODO: Add method in auth service to update phone
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.updatePhone(
         phone: fullPhoneNumber,
@@ -447,9 +542,10 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
         ),
       );
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Error updating phone'),
+          content: Text(e.toString()),
           backgroundColor: SafeJetColors.error,
         ),
       );

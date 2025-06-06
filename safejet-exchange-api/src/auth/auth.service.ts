@@ -39,6 +39,7 @@ import { WalletService } from '../wallet/wallet.service';
 import { BLOCKCHAIN_CONFIGS } from '../wallet/blockchain.config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CreateWalletEvent } from '../wallet/events/create-wallet.event';
+import { TermiiService } from '../termii/termii.service';
 
 @Injectable()
 export class AuthService {
@@ -58,6 +59,7 @@ export class AuthService {
     private readonly p2pSettingsService: P2PSettingsService,
     private readonly walletService: WalletService,
     private readonly eventEmitter: EventEmitter2,
+    private readonly termiiService: TermiiService,
   ) {}
 
   private generateVerificationCode(): string {
@@ -709,6 +711,15 @@ export class AuthService {
         throw new NotFoundException('User not found');
       }
 
+      // Check if phone number is already in use by another user
+      const existingUser = await this.userRepository.findOne({
+        where: { phone: updatePhoneDto.phone },
+      });
+
+      if (existingUser && existingUser.id !== userId) {
+        throw new ConflictException('This phone number is already in use by another account');
+      }
+
       // Update user phone details
       user.phone = updatePhoneDto.phone;
       user.countryCode = updatePhoneDto.countryCode;
@@ -723,6 +734,9 @@ export class AuthService {
         user: this.sanitizeUser(user),
       };
     } catch (error) {
+      if (error instanceof ConflictException) {
+        throw error;
+      }
       throw new InternalServerErrorException('Failed to update phone number');
     }
   }
@@ -733,22 +747,43 @@ export class AuthService {
       throw new NotFoundException('User not found');
     }
 
+    let verificationCode: string;
+    let error: Error | null = null;
+
+    // Try Twilio first
     try {
-      const verificationCode = await this.twilioService.sendVerificationCode(
-        user.phone,
-      );
+      verificationCode = await this.twilioService.sendVerificationCode(user.phone);
+    } catch (twilioError) {
+      console.error('Twilio failed, trying Termii:', twilioError);
+      error = twilioError;
+      
+      // Try Termii as fallback
+      try {
+        verificationCode = await this.termiiService.sendVerificationCode(user.phone);
+        error = null;
+      } catch (termiiError) {
+        console.error('Termii also failed:', termiiError);
+        throw new InternalServerErrorException(
+          'Failed to send verification code through both Twilio and Termii',
+        );
+      }
+    }
 
-      // Hash and save the verification code
-      user.verificationCode = await bcrypt.hash(verificationCode, 10);
-      user.verificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
-      await this.userRepository.save(user);
-
-      return { message: 'Verification code sent successfully' };
-    } catch (error) {
+    if (!verificationCode) {
       throw new InternalServerErrorException(
-        'Failed to send verification code',
+        'Failed to generate verification code',
       );
     }
+
+    // Hash and save the verification code
+    user.verificationCode = await bcrypt.hash(verificationCode, 10);
+    user.verificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+    await this.userRepository.save(user);
+
+    return { 
+      message: 'Verification code sent successfully',
+      provider: error ? 'termii' : 'twilio'
+    };
   }
 
   async verifyPhone(userId: string, code: string) {
