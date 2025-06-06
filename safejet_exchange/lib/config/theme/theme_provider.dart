@@ -25,7 +25,10 @@ class ThemeProvider with ChangeNotifier {
     _isDarkMode = !_isDarkMode;
     try {
       await _prefs?.setBool(_themeKey, _isDarkMode);
-      notifyListeners();
+      // Use a post-frame callback to notify listeners after the current frame is complete
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        notifyListeners();
+      });
     } catch (e) {
       debugPrint('Error saving theme mode');
     }

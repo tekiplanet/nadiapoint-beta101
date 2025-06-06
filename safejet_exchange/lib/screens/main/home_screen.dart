@@ -20,13 +20,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late int _currentIndex;
+  final PageStorageBucket _bucket = PageStorageBucket();
+  static const String _tabIndexKey = 'home_tab_index';
 
-  @override
-  void initState() {
-    super.initState();
-    // Use the initialIndex provided by the constructor
-    _currentIndex = widget.initialIndex;
+  int get _currentIndex => PageStorage.of(context)?.readState(context, identifier: _tabIndexKey) as int? ?? widget.initialIndex;
+
+  void _setCurrentIndex(int index) {
+    setState(() {
+      PageStorage.of(context)?.writeState(context, index, identifier: _tabIndexKey);
+    });
   }
 
   final List<Widget> _screens = [
@@ -54,22 +56,25 @@ class _HomeScreenState extends State<HomeScreen> {
             themeProvider.toggleTheme();
           },
         ),
-        body: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                themeProvider.backgroundColor,
-                themeProvider.backgroundColor.withOpacity(0.8),
-              ],
+        body: PageStorage(
+          bucket: _bucket,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  themeProvider.backgroundColor,
+                  themeProvider.backgroundColor.withOpacity(0.8),
+                ],
+              ),
             ),
+            child: _screens[_currentIndex],
           ),
-          child: _screens[_currentIndex],
         ),
         bottomNavigationBar: CustomBottomNav(
           currentIndex: _currentIndex,
-          onTap: (index) => setState(() => _currentIndex = index),
+          onTap: (index) => _setCurrentIndex(index),
         ),
       ),
     );
