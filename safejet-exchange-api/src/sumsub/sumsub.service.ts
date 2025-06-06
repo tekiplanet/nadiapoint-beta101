@@ -601,15 +601,22 @@ export class SumsubService {
       throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    // Check if Level 2 is completed
-    if (
-      user.kycLevel < 2 ||
-      user.kycData?.verificationStatus?.identity?.status !== 'completed' ||
-      user.kycData?.verificationStatus?.identity?.reviewAnswer !== 'GREEN'
-    ) {
+    // Only check kycLevel for advanced verification eligibility
+    if (user.kycLevel < 2) {
       throw new HttpException(
         'Complete Level 2 verification first',
         HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    // Optionally log a warning if the Sumsub fields are missing or not completed
+    if (
+      !user.kycData?.verificationStatus?.identity ||
+      user.kycData.verificationStatus.identity.status !== 'completed' ||
+      user.kycData.verificationStatus.identity.reviewAnswer !== 'GREEN'
+    ) {
+      console.warn(
+        `User ${user.id} is proceeding to advanced verification without completed Sumsub identity status.`
       );
     }
 
@@ -623,10 +630,19 @@ export class SumsubService {
         url: `${this.baseUrl}${url}`,
         headers: this.getHeaders(method, url),
       });
-
+      console.log('[Sumsub] Advanced verification response:', response.data);
+      if (!response.data || !response.data.token) {
+        console.warn('[Sumsub] No token received from Sumsub for advanced verification:', response.data);
+        throw new HttpException('Failed to generate advanced verification token', HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+      console.log('[Sumsub] Advanced verification token:', response.data.token);
       return response.data.token;
     } catch (error) {
-      // ... error handling
+      console.error('[Sumsub] Error in startAdvancedVerification:', error?.response?.data || error);
+      throw new HttpException(
+        error?.response?.data?.message || 'Failed to start advanced verification',
+        error?.response?.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
   }
 }
