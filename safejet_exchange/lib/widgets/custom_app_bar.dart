@@ -35,36 +35,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             : SafeJetColors.lightBackground,
       ),
       child: SafeArea(
+        bottom: false,
         child: SizedBox(
           height: 56,
           child: Row(
             children: [
-              // Logo Section
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: BoxDecoration(
-                  color: SafeJetColors.secondaryHighlight,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Icon(
-                  Icons.rocket_launch_rounded,
-                  color: Colors.black,
-                  size: 20,
+              // Logo
+              SizedBox(
+                height: 40,
+                width: 120,
+                child: Image.asset(
+                  isDark ? 'assets/images/logo/logo-2c.png' : 'assets/images/logo/logo-2b.png',
+                  fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(width: 12),
-              
-              // Title with flex to allow it to shrink
-              Expanded(
-                child: Text(
-                  title ?? 'NadiaPoint',
-                  style: theme.textTheme.titleLarge?.copyWith(
-                    color: isDark ? Colors.white : SafeJetColors.lightText,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+              const Spacer(),
               
               // Action buttons in a Row with minimum size
               Row(

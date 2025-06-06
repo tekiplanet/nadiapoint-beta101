@@ -640,7 +640,7 @@ class _WalletsTabState extends State<WalletsTab> {
                                   context,
                                   icon: Icons.add_rounded,
                                   label: 'Deposit',
-                                  description: 'Add funds',
+                                  description: 'Add Crypto',
                                   color: SafeJetColors.success,
                                   onTap: () => Navigator.push(
                                     context,
@@ -659,7 +659,7 @@ class _WalletsTabState extends State<WalletsTab> {
                                   context,
                                   icon: Icons.arrow_upward_rounded,
                                   label: 'Withdraw',
-                                  description: 'To bank',
+                                  description: 'Crypto',
                                   color: isDark ? Colors.white : SafeJetColors.lightText,
                                   onTap: () async {
                                     // If we're not in funding tab, load funding balances first

@@ -765,7 +765,7 @@ export class AuthService {
         console.error('Termii also failed:', termiiError);
         throw new InternalServerErrorException(
           'Failed to send verification code through both Twilio and Termii',
-        );
+      );
       }
     }
 
@@ -775,10 +775,10 @@ export class AuthService {
       );
     }
 
-    // Hash and save the verification code
-    user.verificationCode = await bcrypt.hash(verificationCode, 10);
-    user.verificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
-    await this.userRepository.save(user);
+      // Hash and save the verification code
+      user.verificationCode = await bcrypt.hash(verificationCode, 10);
+      user.verificationCodeExpires = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes
+      await this.userRepository.save(user);
 
     return { 
       message: 'Verification code sent successfully',
