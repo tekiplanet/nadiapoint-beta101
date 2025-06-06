@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../config/theme/colors.dart';
 import 'email_verification_screen.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -279,6 +281,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     color: SafeJetColors.secondaryHighlight,
                     fontWeight: FontWeight.bold,
                   ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launchUrl(Uri.parse('https://nadiapoint.com/terms'));
+                    },
                 ),
                 const TextSpan(text: ' and '),
                 TextSpan(
@@ -287,6 +293,10 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     color: SafeJetColors.secondaryHighlight,
                     fontWeight: FontWeight.bold,
                   ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      launchUrl(Uri.parse('https://nadiapoint.com/privacy'));
+                    },
                 ),
               ],
             ),
