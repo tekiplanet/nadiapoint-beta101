@@ -375,11 +375,11 @@ class _KYCLevelsScreenState extends State<KYCLevelsScreen> {
                   child: Row(
                     children: [
                       Icon(
-                        _isRequirementCompleted(req)
+                        _isRequirementCompleted(req, level.level)
                             ? Icons.check_circle
                             : Icons.radio_button_unchecked,
                         size: 16,
-                        color: _isRequirementCompleted(req)
+                        color: _isRequirementCompleted(req, level.level)
                             ? SafeJetColors.success
                             : Colors.grey,
                       ),
@@ -499,9 +499,12 @@ class _KYCLevelsScreenState extends State<KYCLevelsScreen> {
     }
   }
 
-  bool _isRequirementCompleted(String requirement) {
+  bool _isRequirementCompleted(String requirement, int level) {
     final kycDetails = context.read<KYCProvider>().kycDetails;
     if (kycDetails == null) return false;
+
+    // If the level is completed, all requirements are considered completed
+    if (_isLevelCompleted(level)) return true;
 
     // Convert requirement to lowercase for case-insensitive comparison
     final req = requirement.toLowerCase().trim();
@@ -515,21 +518,14 @@ class _KYCLevelsScreenState extends State<KYCLevelsScreen> {
       case 'address proof':
         return kycDetails.verificationStatus?.identity?.status == 'completed' && 
                kycDetails.verificationStatus?.identity?.reviewAnswer == 'GREEN';
-      // Make sure these match exactly with the text shown in the UI
       case 'advanced verification':
       case 'bank statement':
       case 'proof of income':
       case 'tax documents':
-        // Print for debugging
-        print('Advanced verification status: ${kycDetails.verificationStatus?.advanced?.status}');
-        print('Advanced verification review answer: ${kycDetails.verificationStatus?.advanced?.reviewAnswer}');
-        
         final isAdvancedCompleted = kycDetails.verificationStatus?.advanced?.status?.toLowerCase() == 'completed' && 
                                    kycDetails.verificationStatus?.advanced?.reviewAnswer == 'GREEN';
-        print('Is advanced completed: $isAdvancedCompleted');
         return isAdvancedCompleted;
       default:
-        print('Unmatched requirement: $req');
         return false;
     }
   }

@@ -12,6 +12,7 @@ import 'sumsub_verification_screen.dart';
 import 'package:animate_do/animate_do.dart';
 import '../../widgets/location_picker/location_picker.dart';
 import '../../providers/auth_provider.dart';
+import 'start_identity_verification_screen.dart';
 
 class IdentityVerificationScreen extends StatefulWidget {
   const IdentityVerificationScreen({super.key});
@@ -39,12 +40,43 @@ class _IdentityVerificationScreenState extends State<IdentityVerificationScreen>
   Future<void> _loadKYCDetails() async {
     try {
       await Provider.of<KYCProvider>(context, listen: false).loadKYCDetails();
+      final kycProvider = Provider.of<KYCProvider>(context, listen: false);
+      final kycDetails = kycProvider.kycDetails;
+      final identity = kycDetails?.kycData?['identityDetails'];
+      if (identity != null) {
+        setState(() {
+          _firstNameController.text = identity['firstName'] ?? '';
+          _lastNameController.text = identity['lastName'] ?? '';
+          _dobController.text = identity['dateOfBirth'] != null && identity['dateOfBirth'].isNotEmpty
+              ? _formatDateForInput(identity['dateOfBirth'])
+              : '';
+          _addressController.text = identity['address'] ?? '';
+          _selectedCountry = identity['country'] ?? '';
+          _selectedState = identity['state'] ?? '';
+          _selectedCity = identity['city'] ?? '';
+        });
+      } else {
+        await _loadUserDetails();
+      }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Error loading KYC details')),
         );
       }
+    }
+  }
+
+  String _formatDateForInput(String date) {
+    // Converts YYYY-MM-DD to DD/MM/YYYY for the input field
+    try {
+      final parts = date.split('-');
+      if (parts.length == 3) {
+        return '${parts[2]}/${parts[1]}/${parts[0]}';
+      }
+      return date;
+    } catch (_) {
+      return date;
     }
   }
 
@@ -73,7 +105,6 @@ class _IdentityVerificationScreenState extends State<IdentityVerificationScreen>
     _loadSavedFormData().then((_) {
       // Then load other data
       _loadKYCDetails();
-      _loadUserDetails();
     });
     _setupAutoSave();
   }
@@ -425,8 +456,13 @@ class _IdentityVerificationScreenState extends State<IdentityVerificationScreen>
       await _clearSavedData();
 
       if (!mounted) return;
-      
-      await _startVerification();
+      // Navigate to the new intermediate screen instead of starting verification immediately
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => StartIdentityVerificationScreen(),
+        ),
+      );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
