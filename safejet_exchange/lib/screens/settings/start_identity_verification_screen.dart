@@ -80,12 +80,8 @@ class _StartIdentityVerificationScreenState extends State<StartIdentityVerificat
             ),
             const SizedBox(height: 16),
             if (_error != null) ...[
-              Text(
-                _error!,
-                style: const TextStyle(color: SafeJetColors.error, fontSize: 14),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 12),
+              _buildErrorCard(_error!, isDark),
+              const SizedBox(height: 18),
             ],
             SizedBox(
               width: double.infinity,
@@ -100,7 +96,14 @@ class _StartIdentityVerificationScreenState extends State<StartIdentityVerificat
                   ),
                 ),
                 child: _loading
-                    ? const CircularProgressIndicator(color: Colors.white)
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2.2,
+                        ),
+                      )
                     : const Text('Start Verification', style: TextStyle(fontWeight: FontWeight.bold)),
               ),
             ),
@@ -108,6 +111,44 @@ class _StartIdentityVerificationScreenState extends State<StartIdentityVerificat
             _buildSupportNotice(context, isDark),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildErrorCard(String message, bool isDark) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+      margin: const EdgeInsets.only(top: 4),
+      decoration: BoxDecoration(
+        color: isDark ? SafeJetColors.error.withOpacity(0.13) : SafeJetColors.error.withOpacity(0.08),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: SafeJetColors.error.withOpacity(0.18)),
+        boxShadow: [
+          BoxShadow(
+            color: SafeJetColors.error.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Icon(Icons.error_outline_rounded, color: SafeJetColors.error, size: 26),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              message,
+              style: TextStyle(
+                color: isDark ? SafeJetColors.error : Colors.red[900],
+                fontWeight: FontWeight.w600,
+                fontSize: 14.5,
+                height: 1.4,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
