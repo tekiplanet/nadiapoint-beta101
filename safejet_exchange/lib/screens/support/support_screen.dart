@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme/colors.dart';
 import '../../services/home_service.dart';
 import 'package:shimmer/shimmer.dart';
+import 'webview_screen.dart';
 
 class SupportScreen extends StatefulWidget {
   const SupportScreen({super.key});
@@ -238,7 +239,15 @@ class _SupportScreenState extends State<SupportScreen> {
                 Icons.chat_rounded,
                 SafeJetColors.secondaryHighlight,
                 isDark,
-                onTap: () => _launchUrl(_contactInfo!['supportLinks']['liveChat']),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WebViewScreen(
+                      url: _contactInfo!['supportLinks']['liveChat'],
+                      title: 'Live Chat',
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(width: 12),
@@ -248,7 +257,15 @@ class _SupportScreenState extends State<SupportScreen> {
                 Icons.help_rounded,
                 SafeJetColors.success,
                 isDark,
-                onTap: () => _launchUrl(_contactInfo!['supportLinks']['faq']),
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WebViewScreen(
+                      url: _contactInfo!['supportLinks']['faq'],
+                      title: 'FAQ',
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
@@ -335,7 +352,15 @@ class _SupportScreenState extends State<SupportScreen> {
           'Get detailed guides and tutorials',
           Icons.school_rounded,
           isDark,
-          onTap: () => _launchUrl(supportLinks['helpCenter']),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WebViewScreen(
+                url: supportLinks['helpCenter'],
+                title: 'Help Center',
+              ),
+            ),
+          ),
         ),
         const SizedBox(height: 12),
         _buildResourceCard(
@@ -343,7 +368,15 @@ class _SupportScreenState extends State<SupportScreen> {
           'Create a ticket for specific issues',
           Icons.confirmation_number_rounded,
           isDark,
-          onTap: () => _launchUrl(supportLinks['supportTickets']),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WebViewScreen(
+                url: supportLinks['supportTickets'],
+                title: 'Submit Ticket',
+              ),
+            ),
+          ),
         ),
         const SizedBox(height: 12),
         _buildResourceCard(
@@ -351,7 +384,15 @@ class _SupportScreenState extends State<SupportScreen> {
           'Browse through our documentation',
           Icons.library_books_rounded,
           isDark,
-          onTap: () => _launchUrl(supportLinks['knowledgeBase']),
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WebViewScreen(
+                url: supportLinks['knowledgeBase'],
+                title: 'Knowledge Base',
+              ),
+            ),
+          ),
         ),
       ],
     );
@@ -407,7 +448,15 @@ class _SupportScreenState extends State<SupportScreen> {
             }
 
             return InkWell(
-              onTap: () => _launchUrl(url),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WebViewScreen(
+                    url: url,
+                    title: platform,
+                  ),
+                ),
+              ),
               borderRadius: BorderRadius.circular(12),
               child: Container(
                 padding: const EdgeInsets.all(12),
