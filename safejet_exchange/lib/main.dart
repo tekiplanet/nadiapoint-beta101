@@ -31,7 +31,9 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print('Before dotenv');
   await dotenv.load(fileName: ".env");
+  print('After dotenv');
   
   final dio = Dio();
   
@@ -97,8 +99,10 @@ void main() async {
 }
 
 Future<bool> isFirstLaunch() async {
+  print('Checking first launch...');
   final prefs = await SharedPreferences.getInstance();
   final hasSeenOnboarding = prefs.getBool('hasSeenOnboarding') ?? false;
+  print('First launch: ${!hasSeenOnboarding}');
   return !hasSeenOnboarding;
 }
 
@@ -113,18 +117,20 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: themeProvider.theme,
       navigatorKey: navigatorKey,
-      home: AuthWrapper(
-        child: FutureBuilder<bool>(
-          future: isFirstLaunch(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const SplashScreen();
-            }
-            return snapshot.data == true
-                ? const OnboardingScreen()
-                : const HomeScreen();
-          },
-        ),
+      home: FutureBuilder<bool>(
+        future: isFirstLaunch(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SplashScreen();
+          }
+          if (snapshot.data == true) {
+            return const OnboardingScreen();
+          }
+          // Only show AuthWrapper after onboarding is done
+          return AuthWrapper(
+            child: const HomeScreen(),
+          );
+        },
       ),
     );
   }

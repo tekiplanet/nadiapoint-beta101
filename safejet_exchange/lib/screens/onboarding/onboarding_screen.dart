@@ -63,8 +63,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     
     if (!mounted) return;
     
-    Navigator.of(context).pushReplacement(
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (route) => false,
     );
   }
 

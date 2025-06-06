@@ -145,6 +145,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> checkAuthStatus() async {
+    print('AuthProvider: checking auth status...');
     try {
       _isLoading = true;
       notifyListeners();
@@ -189,6 +190,7 @@ class AuthProvider with ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+    print('AuthProvider: done checking auth status');
   }
 
   Future<void> fetchFreshUserData() async {
