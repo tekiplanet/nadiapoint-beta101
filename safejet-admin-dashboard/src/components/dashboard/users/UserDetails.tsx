@@ -16,6 +16,10 @@ import {
     Alert,
     Autocomplete,
     TextField,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
 } from '@mui/material';
 import { ArrowBack as ArrowBackIcon } from '@mui/icons-material';
 import moment from 'moment-timezone';
@@ -151,6 +155,7 @@ export default function UserDetails() {
     const [availableCurrencies, setAvailableCurrencies] = useState<string[]>([]);
     const [walletBalances, setWalletBalances] = useState<WalletBalances>({});
     const [walletSummary, setWalletSummary] = useState<WalletSummary>({ totalSpot: 0, totalFunding: 0 });
+    const [kycModalOpen, setKycModalOpen] = useState(false);
 
     const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://encrypted.universalstrader.online/api';
 
@@ -529,6 +534,15 @@ export default function UserDetails() {
                                     )}
                                 </div>
                             )}
+                            <Button
+                                variant="outlined"
+                                color="primary"
+                                onClick={() => setKycModalOpen(true)}
+                                disabled={!user.kycData?.identityDetails}
+                                sx={{ mb: 2 }}
+                            >
+                                View KYC Data
+                            </Button>
                         </div>
                     </Paper>
                 </Grid>
@@ -809,6 +823,30 @@ export default function UserDetails() {
                     </Grid>
                 )}
             </Grid>
+
+            {/* KYC Data Modal */}
+            <Dialog open={kycModalOpen} onClose={() => setKycModalOpen(false)} maxWidth="sm" fullWidth>
+                <DialogTitle>KYC Identity Details</DialogTitle>
+                <DialogContent dividers>
+                    {user.kycData?.identityDetails ? (
+                        <Box component="dl" sx={{ m: 0 }}>
+                            <Typography><strong>First Name:</strong> {user.kycData.identityDetails.firstName}</Typography>
+                            <Typography><strong>Last Name:</strong> {user.kycData.identityDetails.lastName}</Typography>
+                            <Typography><strong>Date of Birth:</strong> {user.kycData.identityDetails.dateOfBirth}</Typography>
+                            <Typography><strong>Address:</strong> {user.kycData.identityDetails.address}</Typography>
+                            <Typography><strong>City:</strong> {user.kycData.identityDetails.city}</Typography>
+                            <Typography><strong>State:</strong> {user.kycData.identityDetails.state}</Typography>
+                            <Typography><strong>Country:</strong> {user.kycData.identityDetails.country}</Typography>
+                            <Typography><strong>Submitted At:</strong> {new Date(user.kycData.identityDetails.submittedAt).toLocaleString()}</Typography>
+                        </Box>
+                    ) : (
+                        <Typography color="textSecondary">No KYC identity details available.</Typography>
+                    )}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => setKycModalOpen(false)} color="primary">Close</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 } 
