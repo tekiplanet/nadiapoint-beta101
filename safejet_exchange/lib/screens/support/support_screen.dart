@@ -238,7 +238,7 @@ class _SupportScreenState extends State<SupportScreen> {
                 Icons.chat_rounded,
                 SafeJetColors.secondaryHighlight,
                 isDark,
-                onTap: () => _launchUrl(_contactInfo!['supportLinks']['supportTickets']),
+                onTap: () => _launchUrl(_contactInfo!['supportLinks']['liveChat']),
               ),
             ),
             const SizedBox(width: 12),

@@ -470,6 +470,15 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                         fontSize: 13,
                       ),
                     ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'If you are using a non-Nigerian phone number, please contact support for faster verification.',
+                      style: TextStyle(
+                        color: isDark ? Colors.grey[500] : Colors.grey[600],
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
                   ],
                 ),
               ),
