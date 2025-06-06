@@ -122,7 +122,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         _buildTermsCheckbox(),
                         const SizedBox(height: 24),
                         _buildRegisterButton(),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 24),
+                        // Or Divider
+                        Row(
+                          children: [
+                            Expanded(child: Divider(color: Colors.grey[700])),
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                'Or continue with',
+                                style: TextStyle(color: Colors.grey[400]),
+                              ),
+                            ),
+                            Expanded(child: Divider(color: Colors.grey[700])),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
+                        // Social Login Buttons
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            _buildSocialButton(
+                              icon: Icons.g_mobiledata_rounded,
+                              label: 'Google',
+                              onPressed: () {
+                                // TODO: Implement Google login
+                              },
+                            ),
+                            _buildSocialButton(
+                              icon: Icons.facebook_rounded,
+                              label: 'Facebook',
+                              onPressed: () {
+                                // TODO: Implement Facebook login
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 24),
                         _buildLoginLink(),
                       ],
                     ),
@@ -461,6 +497,53 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
           }
           return null;
         },
+      ),
+    );
+  }
+
+  Widget _buildSocialButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onPressed,
+  }) {
+    return Container(
+      width: 140,
+      height: 48,
+      decoration: BoxDecoration(
+        color: SafeJetColors.primaryAccent.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: SafeJetColors.primaryAccent.withOpacity(0.2),
+        ),
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

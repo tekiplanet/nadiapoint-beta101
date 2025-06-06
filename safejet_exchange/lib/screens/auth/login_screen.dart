@@ -251,18 +251,14 @@ class _LoginScreenState extends State<LoginScreen> {
                               children: [
                                 _buildSocialButton(
                                   icon: Icons.g_mobiledata_rounded,
+                                  label: 'Google',
                                   onPressed: () {
                                     // TODO: Implement Google login
                                   },
                                 ),
                                 _buildSocialButton(
-                                  icon: Icons.apple_rounded,
-                                  onPressed: () {
-                                    // TODO: Implement Apple login
-                                  },
-                                ),
-                                _buildSocialButton(
                                   icon: Icons.facebook_rounded,
+                                  label: 'Facebook',
                                   onPressed: () {
                                     // TODO: Implement Facebook login
                                   },
@@ -439,21 +435,47 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildSocialButton({
     required IconData icon,
+    required String label,
     required VoidCallback onPressed,
   }) {
     return Container(
-      width: 60,
-      height: 60,
+      width: 140,
+      height: 48,
       decoration: BoxDecoration(
         color: SafeJetColors.primaryAccent.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: SafeJetColors.primaryAccent.withOpacity(0.2),
         ),
       ),
-      child: IconButton(
-        icon: Icon(icon, color: Colors.white, size: 30),
-        onPressed: onPressed,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(12),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 24,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
