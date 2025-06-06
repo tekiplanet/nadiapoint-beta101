@@ -51,6 +51,7 @@ interface ContactSettings {
         supportTickets: string;
         faq: string;
         knowledgeBase: string;
+        liveChat?: string;
     };
 }
 
@@ -94,6 +95,7 @@ export function ContactSettings() {
             supportTickets: '',
             faq: '',
             knowledgeBase: '',
+            liveChat: '',
         },
     });
     const [loading, setLoading] = useState(true);
@@ -101,7 +103,7 @@ export function ContactSettings() {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
-    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'https://encrypted.universalstrader.online/api';
+    const API_BASE = process.env.NEXT_PUBLIC_API_BASE || 'http://encrypted.universalstrader.online/api';
 
     const fetchWithRetry = async (url: string, options: RequestInit, retries = 3): Promise<Response> => {
         const token = localStorage.getItem('adminToken');
@@ -202,13 +204,8 @@ export function ContactSettings() {
                         youtube: '',
                     },
                 supportLinks: typeof data.find((s: any) => s.key === 'supportLinks')?.value === 'string'
-                    ? JSON.parse(data.find((s: any) => s.key === 'supportLinks')?.value)
-                    : data.find((s: any) => s.key === 'supportLinks')?.value || {
-                        helpCenter: '',
-                        supportTickets: '',
-                        faq: '',
-                        knowledgeBase: '',
-                    },
+                    ? { ...JSON.parse(data.find((s: any) => s.key === 'supportLinks')?.value), liveChat: JSON.parse(data.find((s: any) => s.key === 'supportLinks')?.value).liveChat || '' }
+                    : { ...data.find((s: any) => s.key === 'supportLinks')?.value, liveChat: data.find((s: any) => s.key === 'supportLinks')?.value?.liveChat || '' },
             });
         } catch (err: any) {
             console.error('Error fetching settings:', err);
@@ -540,6 +537,16 @@ export function ContactSettings() {
                             onChange={(e) => handleChange('support.knowledgeBase', e.target.value)}
                             className="mb-4"
                             placeholder="https://kb.yourplatform.com"
+                        />
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                        <TextField
+                            fullWidth
+                            label="Live Chat Page URL"
+                            value={settings.supportLinks.liveChat || ''}
+                            onChange={(e) => handleChange('support.liveChat', e.target.value)}
+                            className="mb-4"
+                            placeholder="https://yourplatform.com/livechat"
                         />
                     </Grid>
 

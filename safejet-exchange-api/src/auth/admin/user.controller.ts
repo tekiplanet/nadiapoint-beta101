@@ -103,7 +103,7 @@ export class AdminUserController {
 
     if (search) {
       queryBuilder.andWhere(
-        '(user.email LIKE :search OR user.firstName LIKE :search OR user.lastName LIKE :search)',
+        '(user.email LIKE :search OR user.fullName LIKE :search)',
         { search: `%${search}%` }
       );
     }
@@ -208,7 +208,7 @@ export class AdminUserController {
 
     if (search) {
       queryBuilder.andWhere(
-        '(user.email LIKE :search OR user.firstName LIKE :search OR user.lastName LIKE :search)',
+        '(user.email LIKE :search OR user.fullName LIKE :search)',
         { search: `%${search}%` }
       );
     }

@@ -1,4 +1,4 @@
-export const baseTemplate = (content: string, isDark = true) => `
+export const baseTemplate = (content: string, isDark = true, logoUrl: string) => `
 <!DOCTYPE html>
 <html>
 <head>
@@ -115,7 +115,7 @@ export const baseTemplate = (content: string, isDark = true) => `
 <body>
     <div class="email-container">
         <div class="header">
-            <img src="https://safejet.com/logo.png" alt="NadiaPoint Exchange" class="logo">
+            <img src="${logoUrl}" alt="NadiaPoint Exchange" class="logo">
         </div>
         
         <div class="content">

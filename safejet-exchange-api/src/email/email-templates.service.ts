@@ -3,10 +3,14 @@ import { baseTemplate } from './templates/base.template';
 import { LoginInfoDto } from '../auth/dto/login-info.dto';
 import { format } from 'date-fns';
 import { Decimal } from 'decimal.js';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class EmailTemplatesService {
+  constructor(private readonly configService: ConfigService) {}
+
   verificationEmail(code: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Welcome to NadiaPoint Exchange! 🚀</h1>
       <p>Thank you for joining NadiaPoint Exchange. To complete your registration, please use the verification code below:</p>
@@ -21,11 +25,11 @@ export class EmailTemplatesService {
       
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
-
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   passwordResetEmail(code: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Reset Your Password 🔐</h1>
       <p>We received a request to reset your password. Use the code below to proceed:</p>
@@ -39,10 +43,11 @@ export class EmailTemplatesService {
       <p>If you didn't request a password reset, please secure your account immediately.</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   twoFactorAuthEmail(code: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Two-Factor Authentication 🔒</h1>
       <p>Use the following code to complete your login:</p>
@@ -56,10 +61,11 @@ export class EmailTemplatesService {
       <p>If you didn't attempt to log in, please secure your account immediately.</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   welcomeEmail(userName: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Welcome to NadiaPoint Exchange! 🎉</h1>
       <p>Congratulations on verifying your account! You're now part of a secure and innovative crypto trading platform.</p>
@@ -113,10 +119,11 @@ export class EmailTemplatesService {
       </div>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   passwordChangedEmail(userName: string, isDark = true): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Password Changed Successfully 🔒</h1>
       <p>Hello ${userName},</p>
@@ -146,10 +153,11 @@ export class EmailTemplatesService {
       </div>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   twoFactorEnabledEmail(isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Two-Factor Authentication Enabled 🔒</h1>
       <p>2FA has been successfully enabled on your account. Your account is now more secure!</p>
@@ -167,10 +175,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   twoFactorDisabledEmail(isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Two-Factor Authentication Disabled ⚠️</h1>
       <p>2FA has been disabled on your account. Your account security is now reduced.</p>
@@ -188,10 +197,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   loginNotificationEmail(loginInfo: LoginInfoDto, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New Login Detected 🔔</h1>
       <p>We detected a new login to your NadiaPoint Exchange account.</p>
@@ -218,10 +228,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   kycLevelUpgradeEmail(userName: string, newLevel: number, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>KYC Level ${newLevel} Achieved! 🎉</h1>
       <p>Congratulations ${userName}! Your KYC level has been upgraded to Level ${newLevel}.</p>
@@ -240,7 +251,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   private getKYCLevelBenefits(level: number): string {
@@ -308,6 +319,7 @@ export class EmailTemplatesService {
     reason: string,
     isDark = true,
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Identity Verification Failed ❌</h1>
       <p>Hello ${fullName},</p>
@@ -330,10 +342,11 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   verificationSuccessEmail(fullName: string, isDark = true): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Identity Verification Successful! 🎉</h1>
       <p>Congratulations ${fullName}!</p>
@@ -351,7 +364,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   verificationStatusEmail(
@@ -360,6 +373,7 @@ export class EmailTemplatesService {
     fullName: string,
     isDark = true,
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>${status === 'completed' ? 'Verification Complete! 🎉' : 'Verification Update ⚠️'}</h1>
       <p>Hello ${fullName},</p>
@@ -371,10 +385,11 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   paymentMethodAddedEmail(userName: string, methodName: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New Payment Method Added 💳</h1>
       <p>Hello ${userName},</p>
@@ -399,10 +414,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   paymentMethodUpdatedEmail(userName: string, methodName: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Payment Method Updated ✏️</h1>
       <p>Hello ${userName},</p>
@@ -427,10 +443,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   paymentMethodDeletedEmail(userName: string, methodName: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Payment Method Deleted 🗑️</h1>
       <p>Hello ${userName},</p>
@@ -455,10 +472,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   depositCreatedEmail(userName: string, amount: string, currency: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New Deposit Received 📥</h1>
       <p>Hello ${userName},</p>
@@ -478,10 +496,11 @@ export class EmailTemplatesService {
       <p>📧 <a href="mailto:support@nadiapoint.com" style="color: #ffc300;">support@nadiapoint.com</a></p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   depositConfirmedEmail(userName: string, amount: string, currency: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Deposit Confirmed ✅</h1>
       <p>Hello ${userName},</p>
@@ -501,10 +520,11 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   withdrawalNotificationEmail(userName: string, amount: string, currency: string, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Withdrawal Placed! 💸</h1>
       <p>Hello ${userName},</p>
@@ -521,10 +541,11 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   withdrawalProcessedEmail(userName: string, amount: string, currency: string, status: string, txHash: string | null = null, isDark = true) {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     // Format the amount to have proper decimal places and thousand separators
     const formattedAmount = this.formatAmount(amount);
 
@@ -554,7 +575,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
     
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   private formatAmount(amount: string): string {
@@ -647,6 +668,7 @@ export class EmailTemplatesService {
     date: string,
     isDark = true,
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Transfer Confirmation ✅</h1>
       <p>Your transfer has been completed successfully:</p>
@@ -664,7 +686,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   async getTransferConfirmationTemplate(data: {
@@ -674,7 +696,8 @@ export class EmailTemplatesService {
     toType: string;
     date: Date;
   }, isDark = true): Promise<string> {
-    const content = `
+    const logoUrl = this.configService.get<string>('LOGO_URL');
+      const content = `
       <h1>Transfer Confirmation ✅</h1>
       <p>Your transfer has been completed successfully:</p>
       
@@ -705,7 +728,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   async getConversionConfirmationTemplate(data: {
@@ -718,6 +741,7 @@ export class EmailTemplatesService {
     date: Date;
   }): Promise<string> {
     const isDark = true;
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Conversion Confirmation ✅</h1>
       <p>Your conversion has been completed successfully:</p>
@@ -738,7 +762,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, true);
+    return baseTemplate(content, true, logoUrl);
   }
 
   p2pOrderCreatedBuyerEmail(
@@ -751,7 +775,7 @@ export class EmailTemplatesService {
     isDark = true
   ): string {
     const deadlineFormatted = paymentDeadline.toLocaleString();
-    
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Created - Buy ${tokenSymbol} 🔄</h1>
       <p>Hello ${userName},</p>
@@ -784,7 +808,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pOrderCreatedSellerEmail(
@@ -797,7 +821,7 @@ export class EmailTemplatesService {
     isDark = true
   ): string {
     const deadlineFormatted = paymentDeadline.toLocaleString();
-    
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Created - Sell ${tokenSymbol} 🔄</h1>
       <p>Hello ${userName},</p>
@@ -830,7 +854,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pOrderReceivedBuyerEmail(
@@ -843,7 +867,7 @@ export class EmailTemplatesService {
     isDark = true
   ): string {
     const deadlineFormatted = paymentDeadline.toLocaleString();
-    
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Received - Buy ${tokenSymbol} 🔄</h1>
       <p>Hello ${userName},</p>
@@ -876,7 +900,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pOrderReceivedSellerEmail(
@@ -889,7 +913,7 @@ export class EmailTemplatesService {
     isDark = true
   ): string {
     const deadlineFormatted = paymentDeadline.toLocaleString();
-    
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Received - Sell ${tokenSymbol} 🔄</h1>
       <p>Hello ${userName},</p>
@@ -922,7 +946,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pNewMessageEmail(
@@ -931,6 +955,7 @@ export class EmailTemplatesService {
     isSystemMessage: boolean = false,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New P2P Message Received 💬</h1>
       <p>Hello ${userName},</p>
@@ -950,7 +975,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pOrderPaidEmail(
@@ -963,7 +988,7 @@ export class EmailTemplatesService {
     isDark = true
   ): string {
     const deadlineFormatted = confirmationDeadline.toLocaleString();
-    
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Marked as Paid 💰</h1>
       <p>Hello ${userName},</p>
@@ -996,7 +1021,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pDisputeCreatedUserEmail(
@@ -1015,6 +1040,7 @@ export class EmailTemplatesService {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
     
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Disputed ⚠️</h1>
       <p>Hello ${userName},</p>
@@ -1047,7 +1073,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pDisputeCreatedAdminEmail(
@@ -1067,6 +1093,7 @@ export class EmailTemplatesService {
       .map(word => word.charAt(0).toUpperCase() + word.slice(1))
       .join(' ');
     
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New P2P Dispute Raised ⚠️</h1>
       <p>Hello Admin,</p>
@@ -1101,7 +1128,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint System</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pDisputeMessageUserEmail(
@@ -1112,6 +1139,7 @@ export class EmailTemplatesService {
     isAdmin: boolean = false,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New Dispute Message Received 💬</h1>
       <p>Hello ${userName},</p>
@@ -1132,7 +1160,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pDisputeMessageAdminEmail(
@@ -1142,6 +1170,7 @@ export class EmailTemplatesService {
     respondentName: string,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>New Dispute Message Received ⚠️</h1>
       <p>Hello Admin,</p>
@@ -1169,7 +1198,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint System</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pDisputeStatusUpdateEmail(
@@ -1182,6 +1211,7 @@ export class EmailTemplatesService {
     statusDetails: string,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>Dispute Status Update ⚠️</h1>
       <p>Hello ${userName},</p>
@@ -1210,7 +1240,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pOrderCancelledEmail(
@@ -1225,6 +1255,7 @@ export class EmailTemplatesService {
     isUserCanceller: boolean,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Cancelled ⚠️</h1>
       <p>Hello ${userName},</p>
@@ -1263,7 +1294,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   private getNextStepsForStatus(status: string): string {
@@ -1306,6 +1337,7 @@ export class EmailTemplatesService {
     currency: string,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Completed - Coins Received! 🎉</h1>
       <p>Hello ${userName},</p>
@@ -1336,7 +1368,7 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 
   p2pOrderCompletedSellerEmail(
@@ -1347,6 +1379,7 @@ export class EmailTemplatesService {
     currency: string,
     isDark = true
   ): string {
+    const logoUrl = this.configService.get<string>('LOGO_URL');
     const content = `
       <h1>P2P Order Completed - Coins Released! ✅</h1>
       <p>Hello ${userName},</p>
@@ -1377,6 +1410,6 @@ export class EmailTemplatesService {
       <p>Best regards,<br>The NadiaPoint Team</p>
     `;
 
-    return baseTemplate(content, isDark);
+    return baseTemplate(content, isDark, logoUrl);
   }
 }
