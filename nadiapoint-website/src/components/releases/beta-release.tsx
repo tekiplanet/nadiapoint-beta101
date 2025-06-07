@@ -2,12 +2,12 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faApple, faGooglePlay } from "@fortawesome/free-brands-svg-icons"
-import { betaRelease } from "@/data/releases"
+import { betaRelease, previousBetaRelease } from "@/data/releases"
 
 export function BetaRelease() {
   return (
     <>
-      {/* Header */}
+      {/* Current Release */}
       <div className="mx-auto max-w-2xl text-center">
         <span className="inline-flex items-center rounded-full bg-highlight-primary/10 px-3 py-1 text-sm font-medium text-highlight-primary ring-1 ring-inset ring-highlight-primary/20">
           Latest Release
@@ -93,6 +93,40 @@ export function BetaRelease() {
               </ul>
             </div>
           ))}
+        </div>
+      </div>
+
+      {/* Previous Release */}
+      <div className="mx-auto mt-24 max-w-7xl">
+        <h2 className="mb-12 text-center text-3xl font-bold">Previous Release</h2>
+        <div className="rounded-2xl bg-gradient-to-br from-gray-50/90 to-white/90 p-8 shadow-lg dark:from-gray-900/90 dark:to-gray-800/90">
+          <div className="text-center">
+            <h3 className="text-2xl font-bold">{previousBetaRelease.version}</h3>
+            <p className="mt-2 text-muted-foreground">Released on {previousBetaRelease.date}</p>
+            <p className="mt-4 text-muted-foreground">{previousBetaRelease.description}</p>
+          </div>
+          
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {previousBetaRelease.features.map((feature) => (
+              <div
+                key={feature.title}
+                className="rounded-xl bg-gray-100/50 p-6 dark:bg-gray-800/50"
+              >
+                <div className="mb-4 inline-flex rounded-xl bg-gray-900 p-3 dark:bg-gradient-to-r dark:from-highlight-primary dark:to-highlight-secondary">
+                  <FontAwesomeIcon icon={feature.icon} className="h-6 w-6 text-white" />
+                </div>
+                <h4 className="mb-3 text-lg font-semibold">{feature.title}</h4>
+                <ul className="space-y-2 text-sm text-muted-foreground">
+                  {feature.items.map((item) => (
+                    <li key={item} className="flex items-center gap-2">
+                      <div className="h-1 w-1 rounded-full bg-highlight-primary" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

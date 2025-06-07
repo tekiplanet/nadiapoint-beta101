@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { useTheme } from "@/providers/theme-provider"
 import { motion } from "@/lib/framer"
+import Image from "next/image"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -39,15 +40,15 @@ export function Header() {
       <nav className="container mx-auto px-6 py-4 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="relative h-8 w-8">
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-highlight-primary to-highlight-secondary opacity-20" />
-              <div className="absolute inset-[2px] rounded-full bg-background" />
-              <span className="relative flex h-full w-full items-center justify-center font-bold text-highlight-primary">
-                N
-              </span>
-            </div>
-            <span className="text-xl font-bold">NadiaPoint</span>
+          <Link href="/" className="flex items-center">
+            <Image
+              src={theme === "dark" ? "/logo/logo-2c.png" : "/logo/logo-2b.png"}
+              alt="NadiaPoint Logo"
+              width={160}
+              height={40}
+              priority
+              className="h-8 max-w-[120px] sm:h-10 sm:max-w-[160px] w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
