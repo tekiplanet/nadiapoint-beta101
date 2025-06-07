@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../support/webview_screen.dart';
+import '../../services/home_service.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -165,6 +167,86 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ],
                     ),
                   ),
+                  Center(
+                    child: Text.rich(
+                      TextSpan(
+                        text: 'Having trouble? ',
+                        style: TextStyle(color: Colors.grey[400]),
+                        children: [
+                          TextSpan(
+                            text: 'Contact support',
+                            style: TextStyle(
+                              color: SafeJetColors.secondaryHighlight,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () async {
+                                print('Contact support tapped');
+                                try {
+                                  print('Showing loading indicator');
+                                  // Show loading indicator
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => const Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+
+                                  print('Creating HomeService');
+                                  final homeService = HomeService();
+                                  print('Fetching contact info...');
+                                  final contactInfo = await homeService.getContactInfo();
+                                  print('Contact info received: $contactInfo');
+                                  
+                                  // Close loading indicator
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
+
+                                  final liveChatUrl = contactInfo['supportLinks']['liveChat'];
+                                  print('Live chat URL: $liveChatUrl');
+                                  
+                                  if (liveChatUrl == null || liveChatUrl.isEmpty) {
+                                    throw Exception('Live chat URL not found');
+                                  }
+
+                                  if (context.mounted) {
+                                    print('Navigating to WebView');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => WebViewScreen(
+                                          url: liveChatUrl,
+                                          title: 'Live Chat',
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  print('Error occurred: $e');
+                                  // Close loading indicator if it's still showing
+                                  if (context.mounted) {
+                                    Navigator.pop(context);
+                                  }
+                                  
+                                  // Show error message
+                                  if (context.mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text('Failed to open live chat: ${e.toString()}'),
+                                        backgroundColor: SafeJetColors.error,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 32),
                 ],
               ),
             ),
