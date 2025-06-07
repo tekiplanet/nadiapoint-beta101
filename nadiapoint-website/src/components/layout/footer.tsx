@@ -4,6 +4,8 @@ import Link from "next/link"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTwitter, faDiscord, faTelegram, faGithub } from "@fortawesome/free-brands-svg-icons"
 import { Smartsupp } from "@/components/smartsupp"
+import Image from "next/image"
+import { useTheme } from "@/providers/theme-provider"
 
 const navigation = {
   features: [
@@ -36,6 +38,7 @@ const navigation = {
 }
 
 export function Footer() {
+  const { theme } = useTheme();
   return (
     <footer className="border-t border-muted bg-background">
       <Smartsupp />
@@ -44,15 +47,15 @@ export function Footer() {
         <div className="grid grid-cols-2 gap-8 lg:grid-cols-5">
           {/* Logo and Description */}
           <div className="col-span-2">
-            <Link href="/" className="flex items-center space-x-2">
-              <div className="relative h-8 w-8">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-highlight-primary to-highlight-secondary opacity-20" />
-                <div className="absolute inset-[2px] rounded-full bg-background" />
-                <span className="relative flex h-full w-full items-center justify-center font-bold text-highlight-primary">
-                  N
-                </span>
-              </div>
-              <span className="text-xl font-bold">NadiaPoint</span>
+            <Link href="/" className="flex items-center">
+              <Image
+                src={theme === "dark" ? "/logo/logo-2c.png" : "/logo/logo-2b.png"}
+                alt="NadiaPoint Logo"
+                width={160}
+                height={40}
+                priority
+                className="h-8 max-w-[120px] sm:h-10 sm:max-w-[160px] w-auto object-contain"
+              />
             </Link>
             <p className="mt-4 max-w-md text-sm text-muted-foreground">
               Download our mobile app and experience the future of cryptocurrency trading. Fast, secure, and user-friendly crypto trading at your fingertips.
